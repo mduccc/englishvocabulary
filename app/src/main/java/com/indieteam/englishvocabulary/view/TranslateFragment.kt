@@ -8,13 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.component.DaggerAppComponent
-import com.indieteam.englishvocabulary.business.module.ContextModule
-import com.indieteam.englishvocabulary.business.module.RetrofitModule
-import com.indieteam.englishvocabulary.business.module.SuggestModule
-import com.indieteam.englishvocabulary.business.module.TranslateModule
-import com.indieteam.englishvocabulary.business.provider.RetrofitProvider
-import com.indieteam.englishvocabulary.business.provider.SuggestProvider
-import com.indieteam.englishvocabulary.business.provider.TranslateProvider
+import com.indieteam.englishvocabulary.business.module.*
+import com.indieteam.englishvocabulary.business.provider.*
 import com.indieteam.englishvocabulary.databinding.FragmentTranslateBindingImpl
 import com.indieteam.englishvocabulary.viewmodel.TranslateViewModel
 
@@ -31,6 +26,7 @@ class TranslateFragment : Fragment() {
             .suggestModule(SuggestModule(SuggestProvider(requireContext())))
             .retrofitModule(RetrofitModule(RetrofitProvider))
             .translateModule(TranslateModule(TranslateProvider()))
+            .databaseModule(DatabaseModule(DatabaseManager(requireContext())))
             .build()
 
         appComponent.poke(translateViewModel)

@@ -7,14 +7,16 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import com.android.databinding.library.baseAdapters.BR
 import com.indieteam.englishvocabulary.R
-import com.indieteam.englishvocabulary.business.provider.RetrofitProvider
+import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.SuggestProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
 import com.indieteam.englishvocabulary.business.provider.UrlProvider
 import com.indieteam.englishvocabulary.model.TranslateModel
 import javax.inject.Inject
+
 
 class TranslateViewModel : BaseObservable() {
     private val translateView = TranslateModel.TranslateView("", "")
@@ -26,6 +28,8 @@ class TranslateViewModel : BaseObservable() {
     lateinit var translateProvider: TranslateProvider
     @Inject
     lateinit var translateBuilder: TranslateProvider.Builder
+    @Inject
+    lateinit var databaseManager: DatabaseManager
 
     @Bindable
     val useAnimate = true
@@ -33,6 +37,10 @@ class TranslateViewModel : BaseObservable() {
     val positionCursorAlwaysEnd = true
     @Bindable
     val useSuggest = true
+
+    private var translated = false
+    private var favoriteState = false
+    private var favoriteDrawable = R.drawable.ic_star_border
 
     private fun isValid(): Boolean {
         return translateView.inputText.isNotEmpty() && translateView.inputText.isNotEmpty()
@@ -42,8 +50,12 @@ class TranslateViewModel : BaseObservable() {
         if (translateProvider.isCallInitialized())
             translateProvider.call.cancel()
         val inputClear = inputText.replace(Regex("[^a-zA-Z]"), "")
-        if (inputClear != getInputText())
+        if (inputClear != getInputText()) {
             setResultText("")
+            setTranslated(false)
+            favoriteDrawable = R.drawable.ic_star_border
+            setFavoriteDrawable(favoriteDrawable)
+        }
         translateView.inputText = inputClear
 
         notifyPropertyChanged(BR.inputText)
@@ -57,6 +69,23 @@ class TranslateViewModel : BaseObservable() {
     fun setButtonText(buttonText: String) {
         this.buttonText.text = buttonText
         notifyPropertyChanged(BR.buttonText)
+    }
+
+    fun setFavoriteDrawable(drawable: Int) {
+        this.favoriteDrawable = drawable
+        notifyPropertyChanged(BR.favoriteDrawable)
+    }
+
+    fun setTranslated(boolean: Boolean) {
+        this.translated = boolean
+        favoriteState = false
+
+        if (boolean && databaseManager.isExists(getInputText())) {
+            favoriteState = true
+            favoriteDrawable = R.drawable.ic_star_fit
+            setFavoriteDrawable(favoriteDrawable)
+        }
+        notifyPropertyChanged(BR.translated)
     }
 
     @Bindable
@@ -74,8 +103,19 @@ class TranslateViewModel : BaseObservable() {
         return buttonText.text
     }
 
-    fun onCLick() {
+    @Bindable
+    fun getFavoriteDrawable(): Int {
+        return favoriteDrawable
+    }
+
+    @Bindable
+    fun getTranslated(): Boolean {
+        return translated
+    }
+
+    fun translateOnCLick() {
         if (isValid()) {
+            setTranslated(false)
             Log.d("InputText", "Is valid")
             setButtonText("TRANSLATING...")
             translateBuilder.translate(this, getInputText(), UrlProvider.format, UrlProvider.lang, UrlProvider.key)
@@ -83,6 +123,26 @@ class TranslateViewModel : BaseObservable() {
             Log.d("InputText", "Is not valid")
             setResultText("")
         }
+    }
+
+    fun favoriteOnClick() {
+        favoriteState = !favoriteState
+        Log.d("favoriteState", favoriteState.toString())
+
+        if (favoriteState) {
+            favoriteDrawable = R.drawable.ic_star_fit
+            if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
+                val insert = databaseManager.insert(getInputText(), getResultText(), null)
+                Log.d("insert vocabulary", insert.toString())
+            }
+        } else {
+            favoriteDrawable = R.drawable.ic_star_border
+            val delete = databaseManager.delete(getInputText())
+            Log.d("delete vocabulary", delete.toString())
+        }
+
+        setFavoriteDrawable(favoriteDrawable)
+
     }
 
     companion object {
@@ -109,10 +169,15 @@ class TranslateViewModel : BaseObservable() {
 
         @BindingAdapter("positionCursorAlwaysEnd")
         @JvmStatic
-        fun setPosition(editText: View, inputText: String) {
-            editText as EditText
+        fun setPosition(editText: EditText, inputText: String) {
             if (inputText.isNotEmpty())
                 editText.setSelection(inputText.length)
+        }
+
+        @BindingAdapter("android:src")
+        @JvmStatic
+        fun setImageDrawable(imageView: ImageView, drawable: Int) {
+            imageView.setImageDrawable(imageView.resources.getDrawable(drawable))
         }
     }
 

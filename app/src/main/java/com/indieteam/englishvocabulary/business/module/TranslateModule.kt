@@ -13,7 +13,6 @@ class TranslateModule(private val translateProvider: TranslateProvider) {
         return translateProvider
     }
 
-
     @Provides
     fun getTranslateBuilder(retrofitProvider: RetrofitProvider): TranslateProvider.Builder{
         return translateProvider.Builder(retrofitProvider)

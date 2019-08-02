@@ -3,6 +3,8 @@
         xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
                 name="TranslateViewModel"
                 type="com.indieteam.englishvocabulary.viewmodel.TranslateViewModel">
@@ -84,17 +86,35 @@
                         android:text="VIETNAMESE"
                         android:textStyle="bold"
                         android:textSize="35sp"
+                        android:layout_marginBottom="15dp"
                         android:gravity="center_vertical"
                         android:textColor="@color/colorWhite"/>
 
-                <TextView
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@={TranslateViewModel.resultText}"
-                        android:textSize="30sp"
-                        android:background="@drawable/app_background"
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginTop="15dp"/>
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:text="@={TranslateViewModel.resultText}"
+                            android:textSize="30sp"
+                            android:background="@drawable/app_background"
+                            android:textColor="@color/colorWhite"/>
+
+                    <ImageView
+                            android:id="@+id/favorite"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="@{()->TranslateViewModel.favoriteOnClick()}"
+                            android:src="@{TranslateViewModel.favoriteDrawable}"
+                            android:visibility="@{TranslateViewModel.translated ? View.VISIBLE : View.GONE}"/>
+
+                </LinearLayout>
             </LinearLayout>
 
             <Button
@@ -108,7 +128,7 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/colorWhite"
-                    android:onClick="@{()->TranslateViewModel.onCLick()}"
+                    android:onClick="@{()->TranslateViewModel.translateOnCLick()}"
                     bind:useEffect="@{TranslateViewModel.useAnimate}"/>
 
         </LinearLayout>

@@ -20,6 +20,7 @@ class TranslateProvider {
             if (cache.containsKey(text)) {
                 translateViewModel.setResultText(cache[text]!!)
                 translateViewModel.setButtonText("Translate now")
+                translateViewModel.setTranslated(true)
             } else {
                 if (isCallInitialized())
                     call.cancel()
@@ -49,6 +50,7 @@ class TranslateProvider {
 
                                 translateViewModel.setResultText(cache[text]!!)
                                 translateViewModel.setButtonText("Translate now")
+                                translateViewModel.setTranslated(true)
                             } else {
                                 Log.d("Json", "Code: " + json.code.toString())
                             }
