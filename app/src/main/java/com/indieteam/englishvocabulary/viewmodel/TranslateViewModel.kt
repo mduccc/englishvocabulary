@@ -62,7 +62,7 @@ class TranslateViewModel : BaseObservable() {
     }
 
     fun setResultText(resultText: String) {
-        translateView.resultText = resultText
+        translateView.resultText = resultText.replace("\n", "")
         notifyPropertyChanged(BR.resultText)
     }
 

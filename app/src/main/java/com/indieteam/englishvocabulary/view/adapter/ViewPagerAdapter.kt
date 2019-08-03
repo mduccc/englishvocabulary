@@ -1,10 +1,10 @@
-package com.indieteam.englishvocabulary.view
+package com.indieteam.englishvocabulary.view.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 
-class ViewPagerAdapter(supporFragmentManager: FragmentManager, val listLayout: ArrayList<Fragment>) : FragmentStatePagerAdapter(supporFragmentManager) {
+class ViewPagerAdapter(supportFragmentManager: FragmentManager, private val listLayout: ArrayList<Fragment>) : FragmentStatePagerAdapter(supportFragmentManager) {
     override fun getItem(p0: Int): Fragment {
         return listLayout[p0]
     }

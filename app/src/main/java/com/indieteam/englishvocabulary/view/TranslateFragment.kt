@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.indieteam.englishvocabulary.R
-import com.indieteam.englishvocabulary.business.component.DaggerAppComponent
+import com.indieteam.englishvocabulary.business.component.DaggerTranslateComponent
 import com.indieteam.englishvocabulary.business.module.*
 import com.indieteam.englishvocabulary.business.provider.*
 import com.indieteam.englishvocabulary.databinding.FragmentTranslateBindingImpl
@@ -21,7 +21,7 @@ class TranslateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val appComponent = DaggerAppComponent.builder()
+        val translateComponent = DaggerTranslateComponent.builder()
             .contextModule(ContextModule(requireContext()))
             .suggestModule(SuggestModule(SuggestProvider(requireContext())))
             .retrofitModule(RetrofitModule(RetrofitProvider))
@@ -29,7 +29,7 @@ class TranslateFragment : Fragment() {
             .databaseModule(DatabaseModule(DatabaseManager(requireContext())))
             .build()
 
-        appComponent.poke(translateViewModel)
+        translateComponent.poke(translateViewModel)
 
         val binding = DataBindingUtil.inflate<FragmentTranslateBindingImpl>(inflater, R.layout.fragment_translate, container, false)
         binding.translateViewModel = translateViewModel
