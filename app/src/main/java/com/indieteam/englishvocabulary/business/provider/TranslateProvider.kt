@@ -11,8 +11,13 @@ import javax.inject.Singleton
 @Singleton
 class TranslateProvider {
     lateinit var call: Call<TranslateModel.Success>
-    fun isCallInitialized() = ::call.isInitialized
+    private fun isCallInitialized() = ::call.isInitialized
     private val cache = HashMap<String, String>()
+
+    fun callCancel() {
+        if(isCallInitialized())
+            call.cancel()
+    }
 
     inner class Builder(private val retrofitProvider: RetrofitProvider) {
 
@@ -22,8 +27,7 @@ class TranslateProvider {
                 translateViewModel.setButtonText("Translate now")
                 translateViewModel.setTranslated(true)
             } else {
-                if (isCallInitialized())
-                    call.cancel()
+               callCancel()
 
                 call = retrofitProvider.builder().translate(text, format, lang, key)
 

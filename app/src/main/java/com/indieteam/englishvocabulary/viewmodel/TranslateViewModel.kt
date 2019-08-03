@@ -47,8 +47,7 @@ class TranslateViewModel : BaseObservable() {
     }
 
     fun setInputText(inputText: String) {
-        if (translateProvider.isCallInitialized())
-            translateProvider.call.cancel()
+        translateProvider.callCancel()
         val inputClear = inputText.replace(Regex("[^a-zA-Z]"), "")
         if (inputClear != getInputText()) {
             setResultText("")
@@ -57,6 +56,7 @@ class TranslateViewModel : BaseObservable() {
             setFavoriteDrawable(favoriteDrawable)
         }
         translateView.inputText = inputClear
+        setButtonText("Translate now")
 
         notifyPropertyChanged(BR.inputText)
     }

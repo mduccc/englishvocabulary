@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -16,6 +17,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.component.DaggerFavouruteComponent
@@ -23,12 +26,20 @@ import com.indieteam.englishvocabulary.business.module.ContextModule
 import com.indieteam.englishvocabulary.business.module.DatabaseModule
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.databinding.FragmentFavouriteBindingImpl
+import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
+import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_favourite.view.*
 
-
-class FavouriteFragment : Fragment() {
+class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+    override fun onRefresh() {
+        Log.d("onRefresh", "onRefresh")
+        data.clear()
+        data.addAll(favouriteViewModel.databaseManager.getFavorites())
+        favouriteViewModel.setFavouriteData(data)
+        swipe_refresh_layout.isRefreshing = false
+    }
 
     private val favouriteViewModel = FavouriteViewModel()
     private val favouriteAdapter = FavouriteAdapter()
@@ -37,6 +48,7 @@ class FavouriteFragment : Fragment() {
     private var posSwiped = -1
     private var lastSwipe = -1
     private var moving = false
+    private val data = ArrayList<FavouriteModel.item>()
 
     private val swipeController = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START) {
         override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
@@ -106,11 +118,10 @@ class FavouriteFragment : Fragment() {
 
             // dX of item run from 0 to `-X` width of screen
 
-            if (dX <= - deleteButtonLeft) {
+            if (dX <= -deleteButtonLeft) {
                 deleteButtonVisible = true
                 moving = false
-            } else
-            {
+            } else {
                 deleteButtonVisible = false
                 moving = true
             }
@@ -150,10 +161,17 @@ class FavouriteFragment : Fragment() {
                 Log.d("Y item end", "${item.y + item.height}")
                 Log.d("Button Visible", deleteButtonVisible.toString())
 
-                if(event.action == MotionEvent.ACTION_UP && event.y > item.y && event.y < item.y + item.height
-                    && event.x > item.x + item.width && !moving){
+                if (event.action == MotionEvent.ACTION_UP && event.y > item.y && event.y < item.y + item.height
+                    && event.x > item.x + item.width && !moving
+                ) {
                     if (deleteButtonVisible) {
-                        Toast.makeText(requireContext(), "Click to Button Delete ($posSwiped)", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Click to Button Delete ($posSwiped)", Toast.LENGTH_SHORT)
+                            .show()
+                        favouriteViewModel.removeFavouruteData(posSwiped)
+                        favouriteAdapter.removeData(posSwiped)
+
+                        data.clear()
+                        data.addAll(favouriteViewModel.databaseManager.getFavorites())
                         deleteButtonVisible = false
                     }
                 }
@@ -173,21 +191,52 @@ class FavouriteFragment : Fragment() {
 
         favouriteComponent.poke(favouriteViewModel)
 
-        val binding = DataBindingUtil.inflate<FragmentFavouriteBindingImpl>(inflater, R.layout.fragment_favourite, container, false)
+        val binding = DataBindingUtil.inflate<FragmentFavouriteBindingImpl>(
+            inflater,
+            R.layout.fragment_favourite,
+            container,
+            false
+        )
         binding.favouriteViewModel = favouriteViewModel
         binding.executePendingBindings()
         val view = binding.root
 
         return view
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data = favouriteViewModel.databaseManager.getFavorites()
+        data.addAll(favouriteViewModel.databaseManager.getFavorites())
         favouriteViewModel.setFavouriteData(data)
 
-        view.recycler_view.adapter = favouriteAdapter
-        view.recycler_view.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recycler_view.adapter = favouriteAdapter
+        recycler_view.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         ItemTouchHelper(swipeController).attachToRecyclerView(view.recycler_view)
-    }
+        search_favorite.onActionViewExpanded()
+        search_favorite.isFocusable = false
 
+        search_favorite.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                Log.d("Submit", p0)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                Log.d("Searching", p0)
+                p0?.let {
+                    if (it.isEmpty()) {
+                        favouriteViewModel.setFavouriteData(data)
+                    } else {
+                        val searchData = data.filter { it.vocabulary.toLowerCase().contains(p0.toLowerCase()) }
+                            .toCollection(ArrayList())
+                        favouriteViewModel.setFavouriteData(searchData)
+                    }
+                }
+                return true
+            }
+
+        })
+
+        swipe_refresh_layout.setOnRefreshListener(this@FavouriteFragment)
+    }
 }
