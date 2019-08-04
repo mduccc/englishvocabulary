@@ -19,6 +19,11 @@ class FavouriteViewModel: BaseObservable() {
 
     private val favouriteData = ArrayList<FavouriteModel.item>()
 
+    @Bindable
+    fun getFavouriteData():ArrayList<FavouriteModel.item> {
+        return favouriteData
+    }
+
     fun updateFavouriteData(favouriteData: ArrayList<FavouriteModel.item>) {
         this.favouriteData.addAll(favouriteData)
         notifyPropertyChanged(BR.favouriteData)
@@ -34,11 +39,6 @@ class FavouriteViewModel: BaseObservable() {
         val delete = databaseManager.delete(favouriteData[index].vocabulary)
         this.favouriteData.removeAt(index)
         //notifyPropertyChanged(BR.favouriteData)
-    }
-
-    @Bindable
-    fun getFavouriteData():ArrayList<FavouriteModel.item> {
-        return favouriteData
     }
 
     companion object{

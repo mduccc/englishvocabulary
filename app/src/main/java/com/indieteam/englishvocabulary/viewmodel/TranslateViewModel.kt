@@ -47,6 +47,37 @@ class TranslateViewModel : BaseObservable() {
         return translateView.inputText.isNotEmpty() && translateView.inputText.isNotEmpty()
     }
 
+    @Bindable
+    fun getInputText(): String {
+        return translateView.inputText
+    }
+
+    @Bindable
+    fun getResultText(): String {
+        return translateView.resultText
+    }
+
+    @Bindable
+    fun getButtonText(): String {
+        return buttonText.text
+    }
+
+    @Bindable
+    fun getFavoriteDrawable(): Int {
+        return favoriteDrawable
+    }
+
+    @Bindable
+    fun getTranslated(): Boolean {
+        return translated
+    }
+
+    @Bindable
+    fun getButtonClearInputState(): Boolean {
+        return buttonClearInputState
+    }
+
+
     fun setInputText(inputText: String) {
         translateProvider.callCancel()
         val inputClear = inputText.replace(Regex("[^a-zA-Z]"), "")
@@ -94,36 +125,6 @@ class TranslateViewModel : BaseObservable() {
     fun setButtonClearInputState(boolean: Boolean) {
         buttonClearInputState = boolean
         notifyPropertyChanged(BR.buttonClearInputState)
-    }
-
-    @Bindable
-    fun getInputText(): String {
-        return translateView.inputText
-    }
-
-    @Bindable
-    fun getResultText(): String {
-        return translateView.resultText
-    }
-
-    @Bindable
-    fun getButtonText(): String {
-        return buttonText.text
-    }
-
-    @Bindable
-    fun getFavoriteDrawable(): Int {
-        return favoriteDrawable
-    }
-
-    @Bindable
-    fun getTranslated(): Boolean {
-        return translated
-    }
-
-    @Bindable
-    fun getButtonClearInputState(): Boolean {
-        return buttonClearInputState
     }
 
     fun translateOnCLick() {

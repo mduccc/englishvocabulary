@@ -19,21 +19,30 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-        <TextView
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:text="Favourites"
-                android:gravity="center"
-                android:textColor="@color/colorWhite"
+                android:theme="@style/Theme.AppCompat.Light"
                 android:background="@color/colorYellowDark"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_gravity="center"
+                app:titleTextColor="@color/colorWhite"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/textView"/>
+                app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:text="Favourites"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorYellowDark"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/textView"/>
+        </android.support.v7.widget.Toolbar>
+
 
 
         <android.support.v7.widget.SearchView

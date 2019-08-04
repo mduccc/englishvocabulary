@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     private val translateFragment = TranslateFragment()
     private val favouriteFragment = FavouriteFragment()
+    private val tensesFragment = TensesFragment()
     private val listLayout = ArrayList<Fragment>()
     lateinit var viewPagerAdapter: ViewPagerAdapter
 
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         listLayout.apply {
+            add(tensesFragment)
             add(translateFragment)
             add(favouriteFragment)
         }
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         viewPagerAdapter =
             ViewPagerAdapter(supportFragmentManager, listLayout)
         view_pager.adapter = viewPagerAdapter
+
+        view_pager.currentItem = 1
+        view_pager.offscreenPageLimit = 3
     }
 
 }

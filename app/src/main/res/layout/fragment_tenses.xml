@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="TensesRouterViewModel"
+                type="com.indieteam.englishvocabulary.viewmodel.TensesRouterViewModel"/>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  tools:context=".view.TensesFragment">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Theme.AppCompat.Light"
+                android:background="@color/colorYellowDark"
+                app:titleTextColor="@color/colorWhite">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:text="Tenses"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorYellowDark"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/textView"/>
+        </android.support.v7.widget.Toolbar>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.simplePresent}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.simplePresent}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.presentContinuous}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.presentContinuous}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.presentPerfect}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.presentPerfect}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.pastSimple}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.pastSimple}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.pastContinuous}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.pastContinuous}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.pastPerfect}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.pastPerfect}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.simpleFuture}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.simpleFuture}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.futureContinuous}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.futureContinuous}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/colorYellowDark">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@color/colorYellowDark"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="center"
+                            bind:direct="@{TensesRouterViewModel.futurePerfect}">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:text="@={TensesRouterViewModel.futurePerfect}"
+                                android:textStyle="bold"
+                                android:textSize="20sp"
+                                android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_keyboard_arrow_right"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>
