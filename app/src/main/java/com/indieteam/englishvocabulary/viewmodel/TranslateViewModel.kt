@@ -38,6 +38,7 @@ class TranslateViewModel : BaseObservable() {
     @Bindable
     val useSuggest = true
 
+    private var buttonClearInputState = false
     private var translated = false
     private var favoriteState = false
     private var favoriteDrawable = R.drawable.ic_star_border
@@ -57,6 +58,8 @@ class TranslateViewModel : BaseObservable() {
         }
         translateView.inputText = inputClear
         setButtonText("Translate now")
+
+        setButtonClearInputState(translateView.inputText.isNotEmpty())
 
         notifyPropertyChanged(BR.inputText)
     }
@@ -88,6 +91,11 @@ class TranslateViewModel : BaseObservable() {
         notifyPropertyChanged(BR.translated)
     }
 
+    fun setButtonClearInputState(boolean: Boolean) {
+        buttonClearInputState = boolean
+        notifyPropertyChanged(BR.buttonClearInputState)
+    }
+
     @Bindable
     fun getInputText(): String {
         return translateView.inputText
@@ -113,12 +121,17 @@ class TranslateViewModel : BaseObservable() {
         return translated
     }
 
+    @Bindable
+    fun getButtonClearInputState(): Boolean {
+        return buttonClearInputState
+    }
+
     fun translateOnCLick() {
         if (isValid()) {
             setTranslated(false)
             Log.d("InputText", "Is valid")
             setButtonText("TRANSLATING...")
-            translateBuilder.translate(this, getInputText(), UrlProvider.format, UrlProvider.lang, UrlProvider.key)
+            translateBuilder.translate(this, getInputText(), UrlProvider.Yandex.format, UrlProvider.Yandex.lang, UrlProvider.Yandex.key)
         } else {
             Log.d("InputText", "Is not valid")
             setResultText("")
@@ -143,6 +156,10 @@ class TranslateViewModel : BaseObservable() {
 
         setFavoriteDrawable(favoriteDrawable)
 
+    }
+
+    fun clearInputClick() {
+        setInputText("")
     }
 
     companion object {

@@ -8,7 +8,7 @@ object RetrofitProvider {
     fun builder(): EndPoint {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(UrlProvider.baseUrl)
+            .baseUrl(UrlProvider.Yandex.baseUrl)
             .build()
 
         return retrofit.create(EndPoint::class.java)
