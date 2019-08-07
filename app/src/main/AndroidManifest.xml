@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+            android:name=".view.App"
             android:allowBackup="true"
             android:hardwareAccelerated="true"
             android:icon="@drawable/icon"
@@ -27,16 +28,8 @@
         </activity>
 
         <service
-                android:name=".SampleSpellCheckerService"
-                android:label="@string/app_name"
-                android:permission="android.permission.BIND_TEXT_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.textservice.SpellCheckerService"/>
-            </intent-filter>
-
-            <meta-data
-                    android:name="android.view.textservice.scs"
-                    android:resource="@xml/spellchecker"/>
+                android:name=".business.provider.RemindService"
+                android:icon="@drawable/icon">
         </service>
     </application>
 

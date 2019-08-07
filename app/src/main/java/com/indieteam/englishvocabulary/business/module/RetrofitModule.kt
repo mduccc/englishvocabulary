@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class RetrofitModule(private val retrofitProvider: RetrofitProvider) {
+class RetrofitModule {
 
     @Provides
     fun getRetrofitProvider() : RetrofitProvider{
-        return retrofitProvider
+        return RetrofitProvider
     }
 }

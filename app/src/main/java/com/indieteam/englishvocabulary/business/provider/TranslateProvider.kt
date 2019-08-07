@@ -2,14 +2,25 @@ package com.indieteam.englishvocabulary.business.provider
 
 import android.util.Log
 import com.indieteam.englishvocabulary.model.TranslateModel
+import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.viewmodel.TranslateViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TranslateProvider {
+
+    @Inject
+    constructor() {
+        App.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var retrofitProvider: RetrofitProvider
+
     lateinit var call: Call<TranslateModel.Success>
     private fun isCallInitialized() = ::call.isInitialized
     private val cache = HashMap<String, String>()
@@ -19,7 +30,7 @@ class TranslateProvider {
             call.cancel()
     }
 
-    inner class Builder(private val retrofitProvider: RetrofitProvider) {
+    inner class Builder {
 
         fun translate(translateViewModel: TranslateViewModel, text: String, format: String, lang: String, key: String) {
             if (cache.containsKey(text)) {

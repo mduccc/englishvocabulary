@@ -17,22 +17,23 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import com.indieteam.englishvocabulary.R
-import com.indieteam.englishvocabulary.business.component.DaggerFavouruteComponent
-import com.indieteam.englishvocabulary.business.module.ContextModule
-import com.indieteam.englishvocabulary.business.module.DatabaseModule
-import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.databinding.FragmentFavouriteBindingImpl
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
 import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_favourite.view.*
+import javax.inject.Inject
 
-class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
+
+    @Inject
+    constructor() {
+        App.appComponent.inject(this)
+    }
+
     override fun onRefresh() {
         Log.d("onRefresh", "onRefresh")
         data.clear()
@@ -41,14 +42,16 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         swipe_refresh_layout.isRefreshing = false
     }
 
-    private val favouriteViewModel = FavouriteViewModel()
-    private val favouriteAdapter = FavouriteAdapter()
+    @Inject
+    lateinit var favouriteViewModel: FavouriteViewModel
+    @Inject
+    lateinit var favouriteAdapter: FavouriteAdapter
 
     private var deleteButtonVisible = false
     private var posSwiped = -1
     private var lastSwipe = -1
     private var moving = false
-    private val data = ArrayList<FavouriteModel.item>()
+    private val data = ArrayList<FavouriteModel.Item>()
 
     private val swipeController = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START) {
         override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
@@ -61,7 +64,7 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             Log.d("Moving", "$moving")
             val position = p0.layoutPosition
 
-            // Close item swiped before
+            // Close Item swiped before
             if (lastSwipe != -1 && lastSwipe != position)
                 favouriteAdapter.notifyItemChanged(lastSwipe)
 
@@ -116,7 +119,7 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 paint
             )
 
-            // dX of item run from 0 to `-X` width of screen
+            // dX of Item run from 0 to `-X` width of screen
 
             if (dX <= -deleteButtonLeft) {
                 deleteButtonVisible = true
@@ -155,10 +158,10 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         item?.let {
             recyclerView.setOnTouchListener { v, event ->
                 Log.d("X click", event.x.toString())
-                Log.d("X item end", "${item.x + item.width}")
+                Log.d("X Item end", "${item.x + item.width}")
                 Log.d("Y click", event.y.toString())
-                Log.d("Y item start", item.y.toString())
-                Log.d("Y item end", "${item.y + item.height}")
+                Log.d("Y Item start", item.y.toString())
+                Log.d("Y Item end", "${item.y + item.height}")
                 Log.d("Button Visible", deleteButtonVisible.toString())
 
                 if (event.action == MotionEvent.ACTION_UP && event.y > item.y && event.y < item.y + item.height
@@ -184,12 +187,8 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val favouriteComponent = DaggerFavouruteComponent.builder()
-            .contextModule(ContextModule(requireContext()))
-            .databaseModule(DatabaseModule(DatabaseManager(requireContext())))
-            .build()
-
-        favouriteComponent.poke(favouriteViewModel)
+        (requireActivity().application as App).apply {
+        }
 
         val binding = DataBindingUtil.inflate<FragmentFavouriteBindingImpl>(
             inflater,
@@ -223,7 +222,7 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
             override fun onQueryTextChange(p0: String?): Boolean {
                 Log.d("Searching", p0)
-                p0?.let {
+                p0?.let { it ->
                     if (it.isEmpty()) {
                         favouriteViewModel.setFavouriteData(data)
                     } else {
@@ -237,6 +236,6 @@ class FavouriteFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         })
 
-        swipe_refresh_layout.setOnRefreshListener(this@FavouriteFragment)
+        swipe_refresh_layout.setOnRefreshListener(this)
     }
 }

@@ -15,10 +15,17 @@ import com.indieteam.englishvocabulary.business.provider.SuggestProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
 import com.indieteam.englishvocabulary.business.provider.UrlProvider
 import com.indieteam.englishvocabulary.model.TranslateModel
+import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
 
 
-class TranslateViewModel : BaseObservable() {
+class TranslateViewModel : BaseObservable {
+
+    @Inject
+    constructor() {
+        App.appComponent.inject(this)
+    }
+
     private val translateView = TranslateModel.TranslateView("", "")
     private val buttonText = TranslateModel.ButtonText("Translate now")
 
@@ -26,8 +33,6 @@ class TranslateViewModel : BaseObservable() {
     lateinit var suggestProvider: SuggestProvider
     @Inject
     lateinit var translateProvider: TranslateProvider
-    @Inject
-    lateinit var translateBuilder: TranslateProvider.Builder
     @Inject
     lateinit var databaseManager: DatabaseManager
 
@@ -132,7 +137,7 @@ class TranslateViewModel : BaseObservable() {
             setTranslated(false)
             Log.d("InputText", "Is valid")
             setButtonText("TRANSLATING...")
-            translateBuilder.translate(this, getInputText(), UrlProvider.Yandex.format, UrlProvider.Yandex.lang, UrlProvider.Yandex.key)
+            translateProvider.Builder().translate(this, getInputText(), UrlProvider.Yandex.format, UrlProvider.Yandex.lang, UrlProvider.Yandex.key)
         } else {
             Log.d("InputText", "Is not valid")
             setResultText("")

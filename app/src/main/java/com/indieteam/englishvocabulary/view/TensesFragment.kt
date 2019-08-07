@@ -9,10 +9,17 @@ import android.view.ViewGroup
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.databinding.FragmentTensesBindingImpl
 import com.indieteam.englishvocabulary.viewmodel.TensesRouterViewModel
+import javax.inject.Inject
 
-class TensesFragment : Fragment() {
+class TensesFragment : Fragment {
 
-    private val tensesRouterViewModel = TensesRouterViewModel()
+    @Inject
+    constructor() {
+        App.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var tensesRouterViewModel: TensesRouterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

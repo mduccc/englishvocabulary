@@ -5,13 +5,14 @@ import android.content.Context
 import android.util.Log
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import java.lang.Exception
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DatabaseManager(context: Context) : DatabaseProvider(context) {
 
-    fun getFavorites(): ArrayList<FavouriteModel.item> {
-        val result = ArrayList<FavouriteModel.item>()
+    fun getFavorites(): ArrayList<FavouriteModel.Item> {
+        val result = ArrayList<FavouriteModel.Item>()
 
         try {
             val readable = readableDatabase
@@ -19,7 +20,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             cursor.moveToFirst()
 
             while (!cursor.isAfterLast && cursor != null) {
-                val item = FavouriteModel.item(
+                val item = FavouriteModel.Item(
                     cursor.getString(cursor.getColumnIndex("id")).toInt(),
                     cursor.getString(cursor.getColumnIndex("vocabulary")),
                     cursor.getString(cursor.getColumnIndex("vi"))

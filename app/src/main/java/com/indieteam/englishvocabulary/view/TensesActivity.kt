@@ -9,11 +9,17 @@ import com.indieteam.englishvocabulary.databinding.ActivityTensesBinding
 import com.indieteam.englishvocabulary.model.TensesModel
 import com.indieteam.englishvocabulary.viewmodel.Label
 import com.indieteam.englishvocabulary.viewmodel.TensesViewModel
+import javax.inject.Inject
 
-class TensesActivity : AppCompatActivity() {
+class TensesActivity : AppCompatActivity {
 
+    constructor() {
+        App.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var tensesViewModel: TensesViewModel
     private var activityTitle: String? = ""
-    private var tensesViewModel = TensesViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

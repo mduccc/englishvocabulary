@@ -4,7 +4,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 
-class ViewPagerAdapter(supportFragmentManager: FragmentManager, private val listLayout: ArrayList<Fragment>) : FragmentStatePagerAdapter(supportFragmentManager) {
+class ViewPagerAdapter(supportFragmentManager: FragmentManager) : FragmentStatePagerAdapter(supportFragmentManager) {
+
+    val listLayout = ArrayList<Fragment>()
+
     override fun getItem(p0: Int): Fragment {
         return listLayout[p0]
     }

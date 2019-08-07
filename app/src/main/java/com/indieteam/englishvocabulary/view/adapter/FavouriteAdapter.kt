@@ -16,16 +16,16 @@ import kotlin.collections.ArrayList
 class FavouriteAdapter :
     RecyclerView.Adapter<FavouriteAdapter.MyViewHolder>() {
 
-    private var data = ArrayList<FavouriteModel.item>()
+    private var data = ArrayList<FavouriteModel.Item>()
 
-    fun setData(data: ArrayList<FavouriteModel.item>) {
+    fun setData(data: ArrayList<FavouriteModel.Item>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
         notifyItemRangeChanged(0, data.size - 1)
     }
 
-    fun updateData(data: ArrayList<FavouriteModel.item>) {
+    fun updateData(data: ArrayList<FavouriteModel.Item>) {
         val lastData = this.data
         this.data.addAll(data)
         notifyDataSetChanged()
