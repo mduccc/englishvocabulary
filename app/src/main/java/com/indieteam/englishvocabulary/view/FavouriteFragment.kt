@@ -168,14 +168,15 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
                     && event.x > item.x + item.width && !moving
                 ) {
                     if (deleteButtonVisible) {
-                        Toast.makeText(requireContext(), "Click to Button Delete ($posSwiped)", Toast.LENGTH_SHORT)
-                            .show()
                         favouriteViewModel.removeFavouruteData(posSwiped)
                         favouriteAdapter.removeData(posSwiped)
 
                         data.clear()
                         data.addAll(favouriteViewModel.databaseManager.getFavorites())
                         deleteButtonVisible = false
+
+                        Toast.makeText(requireContext(), "Deleted)", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
                 false

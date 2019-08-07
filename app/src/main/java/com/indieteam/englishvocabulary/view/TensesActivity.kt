@@ -14,6 +14,8 @@ import javax.inject.Inject
 class TensesActivity : AppCompatActivity {
 
     constructor() {
+        if (!App.isAppComponentInitialized())
+            App.appComponent = App.module.build()
         App.appComponent.inject(this)
     }
 

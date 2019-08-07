@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity {
 
     constructor() {
         App.module.fragManagerModule(FragManagerModule(supportFragmentManager))
-        App.appComponent = App.module.build()
+        if (!App.isAppComponentInitialized())
+            App.appComponent = App.module.build()
         App.appComponent.inject(this)
     }
 

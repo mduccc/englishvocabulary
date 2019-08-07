@@ -1,6 +1,5 @@
 package com.indieteam.englishvocabulary.view
 
-import android.app.Activity
 import android.app.Application
 import com.indieteam.englishvocabulary.business.component.AppComponent
 import com.indieteam.englishvocabulary.business.component.DaggerAppComponent
@@ -11,6 +10,7 @@ class App : Application() {
     companion object{
         lateinit var appComponent: AppComponent
         lateinit var module: DaggerAppComponent.Builder
+        fun isAppComponentInitialized() = ::appComponent.isInitialized
     }
 
     override fun onCreate() {
