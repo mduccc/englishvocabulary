@@ -1,9 +1,9 @@
 package com.indieteam.englishvocabulary.viewmodel
 
 import android.content.Intent
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.BindingAdapter
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
 import android.view.View
 import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.view.TensesActivity

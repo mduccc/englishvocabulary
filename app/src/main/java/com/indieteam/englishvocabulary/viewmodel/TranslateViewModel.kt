@@ -1,14 +1,14 @@
 package com.indieteam.englishvocabulary.viewmodel
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.BindingAdapter
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import com.android.databinding.library.baseAdapters.BR
+import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.SuggestProvider

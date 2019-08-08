@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "644057612536",
+    "firebase_url": "https://translate-b1f7b.firebaseio.com",
+    "project_id": "translate-b1f7b",
+    "storage_bucket": "translate-b1f7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644057612536:android:44f3a4e5fb43e61c",
+        "android_client_info": {
+          "package_name": "com.indieteam.englishvocabulary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644057612536-79apmk1ugdjj91knnsr5hgbd3k1ok760.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv0OT0Iz6VjQmRjZmPaqvG4d6V--pef_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644057612536-79apmk1ugdjj91knnsr5hgbd3k1ok760.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

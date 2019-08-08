@@ -16,7 +16,8 @@
             android:roundIcon="@drawable/icon"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
+            tools:ignore="GoogleAppIndexingWarning"
+            >
         <activity android:name=".view.TensesActivity">
         </activity>
         <activity android:name=".view.MainActivity">

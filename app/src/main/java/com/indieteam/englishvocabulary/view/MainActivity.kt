@@ -1,8 +1,8 @@
 package com.indieteam.englishvocabulary.view
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.module.FragManagerModule
 import com.indieteam.englishvocabulary.view.adapter.ViewPagerAdapter

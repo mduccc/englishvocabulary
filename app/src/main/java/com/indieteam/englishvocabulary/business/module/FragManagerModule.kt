@@ -1,6 +1,6 @@
 package com.indieteam.englishvocabulary.business.module
 
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import dagger.Module
 import dagger.Provides
 

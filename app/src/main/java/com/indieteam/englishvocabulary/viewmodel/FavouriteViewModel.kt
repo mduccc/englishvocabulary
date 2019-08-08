@@ -1,9 +1,9 @@
 package com.indieteam.englishvocabulary.viewmodel
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.BindingAdapter
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager

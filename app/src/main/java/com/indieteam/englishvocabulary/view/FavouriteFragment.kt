@@ -1,17 +1,17 @@
 package com.indieteam.englishvocabulary.view
 
 import android.annotation.SuppressLint
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -210,12 +210,16 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         favouriteViewModel.setFavouriteData(data)
 
         recycler_view.adapter = favouriteAdapter
-        recycler_view.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recycler_view.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
         ItemTouchHelper(swipeController).attachToRecyclerView(view.recycler_view)
         search_favorite.onActionViewExpanded()
         search_favorite.isFocusable = false
 
-        search_favorite.setOnQueryTextListener(object : android.support.v7.widget.SearchView.OnQueryTextListener {
+        search_favorite.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 Log.d("Submit", p0)
                 return false
