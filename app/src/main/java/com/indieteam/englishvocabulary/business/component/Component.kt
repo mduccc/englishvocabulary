@@ -2,6 +2,7 @@ package com.indieteam.englishvocabulary.business.component
 
 import com.indieteam.englishvocabulary.business.module.*
 import com.indieteam.englishvocabulary.business.provider.RetrofitProvider
+import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
 import com.indieteam.englishvocabulary.view.*
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
@@ -30,4 +31,6 @@ interface AppComponent {
 
     @Singleton
     fun inject(translateProvider: TranslateProvider)
+    @Singleton
+    fun inject(translateModelProvider: TranslateModelProvider)
 }

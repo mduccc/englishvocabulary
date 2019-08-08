@@ -13,7 +13,6 @@ import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.SuggestProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
-import com.indieteam.englishvocabulary.business.provider.UrlProvider
 import com.indieteam.englishvocabulary.model.TranslateModel
 import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
@@ -137,7 +136,8 @@ class TranslateViewModel : BaseObservable {
             setTranslated(false)
             Log.d("InputText", "Is valid")
             setButtonText("TRANSLATING...")
-            translateProvider.Builder().translate(this, getInputText(), UrlProvider.Yandex.format, UrlProvider.Yandex.lang, UrlProvider.Yandex.key)
+            translateProvider.Builder().offlineTranslate(this, getInputText())
+            //translateProvider.Builder().onlineTranslate(this, getInputText(), UrlProvider.Yandex.format, UrlProvider.Yandex.lang, UrlProvider.Yandex.key)
         } else {
             Log.d("InputText", "Is not valid")
             setResultText("")

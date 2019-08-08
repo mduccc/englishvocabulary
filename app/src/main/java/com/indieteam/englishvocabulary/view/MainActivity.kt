@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.module.FragManagerModule
+import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
 import com.indieteam.englishvocabulary.view.adapter.ViewPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity {
     lateinit var favouriteFragment: FavouriteFragment
     @Inject
     lateinit var tensesFragment: TensesFragment
+    @Inject
+    lateinit var translateModelProvider: TranslateModelProvider
 
     private val listLayout = ArrayList<Fragment>()
     @Inject
@@ -33,6 +36,8 @@ class MainActivity : AppCompatActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        translateModelProvider.download()
 
         listLayout.apply {
             add(tensesFragment)

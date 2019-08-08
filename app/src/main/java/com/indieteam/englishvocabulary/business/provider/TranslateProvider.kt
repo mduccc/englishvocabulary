@@ -20,6 +20,8 @@ class TranslateProvider {
 
     @Inject
     lateinit var retrofitProvider: RetrofitProvider
+    @Inject
+    lateinit var firebaseTranslatorProvider: FirebaseTranslatorProvider
 
     lateinit var call: Call<TranslateModel.Success>
     private fun isCallInitialized() = ::call.isInitialized
@@ -32,7 +34,7 @@ class TranslateProvider {
 
     inner class Builder {
 
-        fun translate(translateViewModel: TranslateViewModel, text: String, format: String, lang: String, key: String) {
+        fun onlineTranslate(translateViewModel: TranslateViewModel, text: String, format: String, lang: String, key: String) {
             if (cache.containsKey(text)) {
                 translateViewModel.setResultText(cache[text]!!)
                 translateViewModel.setButtonText("Translate now")
@@ -76,6 +78,19 @@ class TranslateProvider {
 
                 })
             }
+        }
+
+        fun offlineTranslate(translateViewModel: TranslateViewModel, text: String) {
+            firebaseTranslatorProvider.translator.translate(text)
+                .addOnSuccessListener {
+                    translateViewModel.setResultText(it)
+                    translateViewModel.setButtonText("Translate now")
+                    translateViewModel.setTranslated(true)
+                }.addOnFailureListener {
+                    translateViewModel.setResultText("")
+                    translateViewModel.setButtonText("Translate now")
+                    translateViewModel.setTranslated(true)
+                }
         }
     }
 }
