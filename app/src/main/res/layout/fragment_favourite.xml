@@ -51,7 +51,8 @@
                 android:layout_height="wrap_content"
                 android:queryBackground="@android:color/transparent"
                 app:queryBackground="@android:color/transparent"
-                app:queryHint="Search..."/>
+                app:queryHint="Search..."
+                android:focusedByDefault="false"/>
 
         <LinearLayout
                 android:layout_width="match_parent"

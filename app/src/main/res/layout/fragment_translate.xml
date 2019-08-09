@@ -75,7 +75,8 @@
                             android:textSize="30sp"
                             android:textCursorDrawable="@drawable/white_cursor"
                             android:background="@drawable/app_background"
-                            android:textColor="@color/colorWhite"/>
+                            android:textColor="@color/colorWhite"
+                            android:focusedByDefault="false"/>
 
                     <ImageView
                             android:layout_width="0dp"
