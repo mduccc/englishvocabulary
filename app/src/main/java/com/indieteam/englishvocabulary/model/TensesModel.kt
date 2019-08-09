@@ -14,11 +14,11 @@ class TensesModel {
                         "- Diễn tả 1 thói quen, một hành động thường xảy ra ở hiện tại" +
                         "\n" +
                         "- Nói lên khả năng của một người"
-                const val affirmation = "S + V_S/ES + O"
+                const val affirmation = "S + am/are/is + V_S/ES + O \nS + do/does + V_S/ES + O"
                 const val example1 = "I am a student."
-                const val negative = "S+ DO/DOES + NOT + V(Infinitive) +O"
+                const val negative = "S+ am/are/is + not + V(Infinitive) +O\n S+ do/does + not + V(Infinitive) +O"
                 const val example2 = "She is not beautiful."
-                const val question = "AM/IS/ARE + S + (an/a/the) N (s)/ Adj?"
+                const val question = "Am/is/are + S + (an/a/the) N (s)/ Adj? \nDo/does + S + (an/a/the) N (s)/ Adj?"
                 const val example3 = "Are you a student?"
             }
         }
@@ -35,11 +35,11 @@ class TensesModel {
                             "- Diễn tả hành động đang diễn ra nhưng không nhất thiết xảy ra tại thời điểm nói. (E.g: I am looking for a job)\n" +
                             "- Diễn tả 1 sự than phiền với hành động lặp đi lặp lại nhiều gây khó chịu, bực mình. Trong trường hợp này, câu thường có trạng từ tần suất \"always\". (E.g : He is always borrowing our books and then he doesn’t remember.)\n" +
                             "- Dùng để diễn tả một hành động sắp xảy ra trong tương lai theo kế hoạch đã định trước (E.g: I am flying to Thailand tomorrow.)"
-                const val affirmation = "S + is/ am/ are + V_ing + O"
+                const val affirmation = "S + am/are/is + V_ing + O"
                 const val example1 = "They are studying English."
-                const val negative = "S+ is/ am/ are + NOT + V_ing + O"
+                const val negative = "S+ am/are/is + not + V_ing + O"
                 const val example2 = "I’m not cooking now."
-                const val question = "Is/ am/ are + S+ V_ing + O?"
+                const val question = "Am/are/is + S+ V_ing + O?"
                 const val example3 = "Is she watching T.V at the moment?"
             }
         }
@@ -64,12 +64,12 @@ class TensesModel {
                             "\n" +
                             "- Diễn tả hành động bắt đầu ở quá khứ và đang tiếp tục ở hiện tại :\n" +
                             "Ví dụ: They’ve been married for nearly fifty years / Họ đã kết hôn được 50 năm rồi."
-                const val affirmation = "S + have/ has + Past participle (V3) + O"
+                const val affirmation = "S + have/has + V3 + O"
                 const val example1 = "She has studied English for 2 years."
-                const val negative = "S + have/ has + NOT+ Past participle"
+                const val negative = "S + have/has + not + V3 + O"
                 const val example2 = "I haven’t seen my close friend for a month."
-                const val question = "Have/ has +S+ Past participle (V3) + O?"
-                const val example3 = "Have you eaten dinner yet?"
+                const val question = "Have/has + S + V3 + O? \n(What, where, who, why,...) + Have/has + S + V3 + O?"
+                const val example3 = "Have you eaten dinner yet? \nHow long has she been here?"
             }
         }
 
@@ -79,18 +79,18 @@ class TensesModel {
                 const val description = ""
                 const val look =
                     "Các từ thường xuất hiện trong thì quá khứ đơn: Yesterday ( hôm qua), last (night/ week/ month/ year), ago (cách đây), ..."
-                const val manual = "Diễn tả một hành động đã xảy ra và kết thúc trong quá khứ. \n" +
+                const val manual = "Diễn tả hành động sự vật xác định trong quá khứ hoặc vừa mới kết thúc. \n" +
                         "\n" +
                         "Ví dụ:\n" +
                         "\n" +
                         "I went to the concert last week.\n" +
                         "A few weeks ago, a woman called to report a robbery."
-                const val affirmation = "S + V(past)+ O"
-                const val example1 = "He worked as a policeman."
-                const val negative = "S + DID+ NOT + V"
-                const val example2 = "She didn’t eat bread for the breakfast."
-                const val question = "DID + S+ V (infinitive)+ O ?"
-                const val example3 = "Did you call Zoey yesterday?"
+                const val affirmation = "S + was/were + O \nS + V(past)+ O"
+                const val example1 = "They were in Paris on their summer holiday last year. \nHe worked as a policeman."
+                const val negative = "S + was/were + not + O \nS + did + not + V (infinitive)"
+                const val example2 = "We weren’t at home yesterday. \nShe didn’t eat bread for the breakfast."
+                const val question = "Was/were + S + O ? \nDid + S + V (infinitive)+ O ?"
+                const val example3 = "Were they at work yesterday? \nDid you call Zoey yesterday?"
 
                 const val affirmation2 = "S + WAS/WERE + (an/a/the) + N(s)/ Adj"
                 const val example11 = ""
@@ -114,8 +114,6 @@ class TensesModel {
                     "- Dùng để diễn tả một hành động đang xảy ra tại một thời điểm xác định trong quá khứ.\n" +
                             "\n" +
                             "Ví dụ:  At 12 o’clock yesterday, we were having lunch. (Vào lúc 12h ngày hôm qua, chúng tôi đang ăn trưa.)\n" +
-                            "\n" +
-                            " \n" +
                             "\n" +
                             "- Dùng để diễn tả một hành động đang xảy ra thì một hành động khác xen vào. Hành động đang xảy ra chia thì quá khứ tiếp diễn, hành động xen vào chia thì quá khứ đơn.\n" +
                             "Ex:  He was chatting with his friend when his mother came into the room. (Cậu ta đang tán gẫu với bạn khi mẹ cậu ta vào phòng.)"
