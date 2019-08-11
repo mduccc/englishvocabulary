@@ -83,10 +83,12 @@ class TranslateProvider {
         fun offlineTranslate(translateViewModel: TranslateViewModel, text: String) {
             firebaseTranslateProvider.translator.translate(text)
                 .addOnSuccessListener {
+                    Log.d("Translated", "$text: $it")
                     translateViewModel.setResultText(it)
                     translateViewModel.setButtonText("Translate now")
                     translateViewModel.setTranslated(true)
                 }.addOnFailureListener {
+                    it.printStackTrace()
                     translateViewModel.setResultText("")
                     translateViewModel.setButtonText("Translate now")
                     translateViewModel.setTranslated(true)

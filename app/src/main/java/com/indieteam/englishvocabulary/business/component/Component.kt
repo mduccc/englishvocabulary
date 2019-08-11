@@ -4,13 +4,14 @@ import com.indieteam.englishvocabulary.business.module.*
 import com.indieteam.englishvocabulary.business.provider.*
 import com.indieteam.englishvocabulary.view.*
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
+import com.indieteam.englishvocabulary.viewmodel.SettingsViewModel
 import com.indieteam.englishvocabulary.viewmodel.TranslateViewModel
 import dagger.Component
 import javax.inject.Singleton
 
 @Component(modules = [ContextModule::class, SuggestModule::class, RetrofitModule::class,
     TranslateModule::class, DatabaseModule::class, ViewModelModule::class, FragmentModule::class,
-AdapterModule::class, RemindModule::class])
+AdapterModule::class, RemindModule::class, NotificationModule::class])
 interface AppComponent {
     @Singleton
     fun inject(fragment: TranslateFragment)
@@ -26,6 +27,8 @@ interface AppComponent {
     fun inject(translateViewModel: TranslateViewModel)
     @Singleton
     fun inject(favouriteViewModel: FavouriteViewModel)
+    @Singleton
+    fun inject(settingsViewModel: SettingsViewModel)
 
     @Singleton
     fun inject(translateProvider: TranslateProvider)
@@ -33,6 +36,10 @@ interface AppComponent {
     fun inject(translateModelProvider: TranslateModelProvider)
     @Singleton
     fun inject(remindProvider: RemindProvider)
+    @Singleton
+    fun inject(notificationManager: NotificationManager)
+    @Singleton
+    fun inject(notificationChannelProvider: NotificationChannelProvider)
     @Singleton
     fun inject(serviceState: ServiceState)
     @Singleton

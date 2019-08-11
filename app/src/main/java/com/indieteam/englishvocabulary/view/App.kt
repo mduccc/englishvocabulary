@@ -5,7 +5,7 @@ import com.indieteam.englishvocabulary.business.component.AppComponent
 import com.indieteam.englishvocabulary.business.component.DaggerAppComponent
 import com.indieteam.englishvocabulary.business.module.*
 
-class App : Application() {
+open class App : Application() {
 
     companion object{
         lateinit var appComponent: AppComponent
@@ -25,6 +25,6 @@ class App : Application() {
             .viewModelModule(ViewModelModule())
             .fragmentModule(FragmentModule())
             .adapterModule(AdapterModule())
-
+            .notificationModule(NotificationModule())
     }
 }

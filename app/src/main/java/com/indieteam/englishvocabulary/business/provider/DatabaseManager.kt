@@ -47,7 +47,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             val value = ContentValues()
             value.put("vocabulary", vocabulary)
             value.put("vi", vi)
-            value.put("description", description)
+            value.put("remindChannelDescription", description)
 
             writableDB.insert("favorites", null, value)
 
@@ -151,6 +151,27 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         return result
     }
 
+    fun getRateId(): String? {
+        var result: String? = null
+        try {
+            val readableDB = readableDatabase
+            val cursor = readableDB.rawQuery("SELECT * FROM notification_settings", null)
+            cursor.moveToFirst()
+
+            while (!cursor.isAfterLast) {
+                result = cursor.getString(cursor.getColumnIndex("id"))
+                Log.d("data", result.toString())
+                cursor.moveToNext()
+            }
+
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return result
+    }
+
     fun updateRateSetting(id: String, rate: Int): Boolean {
         var result = true
 
@@ -158,7 +179,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             val writableDB = writableDatabase
             val contentValues = ContentValues()
             contentValues.put("rate", rate)
-            writableDB.update("notification_settings", contentValues, "id?=", arrayOf(id))
+            writableDB.update("notification_settings", contentValues, "id=?", arrayOf(id))
         } catch (e: Exception) {
             result = false
             e.printStackTrace()
