@@ -26,7 +26,7 @@ class TranslateUnitTest {
 
             val mainActivity = MainActivity()
             val translateProvider = TranslateProvider()
-            val hashTable = arrayOf("hello", "hel lo", "What have you lost mobile since last week?", "important")
+            val hashTable = arrayOf("hello", "hel lo", "What have you lost mobile since last week?", "remindChannelImportant")
 
             for (input in hashTable)
                 translateProvider.Builder().offlineTranslate(mainActivity.translateFragment.translateViewModel, input)
