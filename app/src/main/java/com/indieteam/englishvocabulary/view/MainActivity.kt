@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
         setContentView(R.layout.activity_main)
 
         databaseManager.insertRateSettingDefault()
-        databaseManager.getRateSetting()
 
         translateModelProvider.download(this)
 
