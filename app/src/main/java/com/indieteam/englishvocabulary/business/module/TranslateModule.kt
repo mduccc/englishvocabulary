@@ -1,6 +1,6 @@
 package com.indieteam.englishvocabulary.business.module
 
-import com.indieteam.englishvocabulary.business.provider.FirebaseTranslatorProvider
+import com.indieteam.englishvocabulary.business.provider.FirebaseTranslateProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
 import dagger.Module
@@ -15,8 +15,8 @@ class TranslateModule {
     }
 
     @Provides
-    fun getFirebaseTranslatorProvider(): FirebaseTranslatorProvider{
-        return FirebaseTranslatorProvider()
+    fun getFirebaseTranslatorProvider(): FirebaseTranslateProvider{
+        return FirebaseTranslateProvider()
     }
 
     @Provides

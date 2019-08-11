@@ -4,7 +4,9 @@ import android.util.Log
 import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.update.OnDownloadModel
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TranslateModelProvider {
 
     @Inject
@@ -13,11 +15,11 @@ class TranslateModelProvider {
     }
 
     @Inject
-    lateinit var firebaseTranslatorProvider: FirebaseTranslatorProvider
+    lateinit var firebaseTranslateProvider: FirebaseTranslateProvider
 
     fun download(onDownloadModel: OnDownloadModel) {
         onDownloadModel.onDownload()
-        firebaseTranslatorProvider.translator.downloadModelIfNeeded()
+        firebaseTranslateProvider.translator.downloadModelIfNeeded()
             .addOnSuccessListener {
                 Log.d("Translate Model", "Downloaded")
                 onDownloadModel.onSuccess()

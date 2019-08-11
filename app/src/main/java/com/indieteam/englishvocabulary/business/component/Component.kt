@@ -1,9 +1,7 @@
 package com.indieteam.englishvocabulary.business.component
 
 import com.indieteam.englishvocabulary.business.module.*
-import com.indieteam.englishvocabulary.business.provider.RetrofitProvider
-import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
-import com.indieteam.englishvocabulary.business.provider.TranslateProvider
+import com.indieteam.englishvocabulary.business.provider.*
 import com.indieteam.englishvocabulary.view.*
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
 import com.indieteam.englishvocabulary.viewmodel.TranslateViewModel
@@ -12,7 +10,7 @@ import javax.inject.Singleton
 
 @Component(modules = [ContextModule::class, SuggestModule::class, RetrofitModule::class,
     TranslateModule::class, DatabaseModule::class, ViewModelModule::class, FragmentModule::class,
-AdapterModule::class, FragManagerModule::class])
+AdapterModule::class, RemindModule::class])
 interface AppComponent {
     @Singleton
     fun inject(fragment: TranslateFragment)
@@ -33,4 +31,10 @@ interface AppComponent {
     fun inject(translateProvider: TranslateProvider)
     @Singleton
     fun inject(translateModelProvider: TranslateModelProvider)
+    @Singleton
+    fun inject(remindProvider: RemindProvider)
+    @Singleton
+    fun inject(serviceState: ServiceState)
+    @Singleton
+    fun inject(remindService: RemindService)
 }

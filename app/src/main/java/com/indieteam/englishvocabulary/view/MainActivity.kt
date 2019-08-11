@@ -1,12 +1,16 @@
 package com.indieteam.englishvocabulary.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import com.indieteam.englishvocabulary.R
-import com.indieteam.englishvocabulary.business.module.FragManagerModule
+import com.indieteam.englishvocabulary.business.provider.DatabaseManager
+import com.indieteam.englishvocabulary.business.provider.RemindService
+import com.indieteam.englishvocabulary.business.provider.ServiceState
 import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
 import com.indieteam.englishvocabulary.view.adapter.ViewPagerAdapter
 import com.indieteam.englishvocabulary.view.update.OnDownloadModel
@@ -21,6 +25,10 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
 
     override fun onSuccess() {
         download_model_loading.visibility = GONE
+        if (!serviceState.remindServiceIsRunning()) {
+            Log.d("RemindService", "Stating")
+            startService(Intent(this, remindService.javaClass))
+        }
     }
 
     override fun onFailure() {
@@ -29,9 +37,9 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     }
 
     constructor() {
-        App.module.fragManagerModule(FragManagerModule(supportFragmentManager))
         if (!App.isAppComponentInitialized())
             App.appComponent = App.module.build()
+
         App.appComponent.inject(this)
     }
 
@@ -43,14 +51,22 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     lateinit var tensesFragment: TensesFragment
     @Inject
     lateinit var translateModelProvider: TranslateModelProvider
+    @Inject
+    lateinit var serviceState: ServiceState
+    @Inject
+    lateinit var remindService: RemindService
+    @Inject
+    lateinit var databaseManager: DatabaseManager
 
     private val listLayout = ArrayList<Fragment>()
-    @Inject
-    lateinit var viewPagerAdapter: ViewPagerAdapter
+    private val viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        databaseManager.insertRateSettingDefault()
+        databaseManager.getRateSetting()
 
         translateModelProvider.download(this)
 

@@ -6,7 +6,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 
 
-class FirebaseTranslatorProvider {
+class FirebaseTranslateProvider {
 
     private val options = FirebaseTranslatorOptions.Builder()
         .setSourceLanguage(FirebaseTranslateLanguage.EN)

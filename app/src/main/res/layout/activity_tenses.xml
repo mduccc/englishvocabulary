@@ -55,8 +55,7 @@
                         android:background="@color/colorYellowDark"
                         android:textStyle="bold"
                         android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:id="@+id/textView"/>
+                        android:layout_gravity="center"/>
 
                 <View
                         android:layout_width="0dp"

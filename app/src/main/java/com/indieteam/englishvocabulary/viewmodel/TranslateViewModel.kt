@@ -118,7 +118,7 @@ class TranslateViewModel : BaseObservable {
         this.translated = boolean
         favoriteState = false
 
-        if (boolean && databaseManager.isExists(getInputText())) {
+        if (boolean && databaseManager.isVocabularyExists(getInputText())) {
             favoriteState = true
             favoriteDrawable = R.drawable.ic_star_fit
             setFavoriteDrawable(favoriteDrawable)
@@ -151,13 +151,13 @@ class TranslateViewModel : BaseObservable {
         if (favoriteState) {
             favoriteDrawable = R.drawable.ic_star_fit
             if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
-                val insert = databaseManager.insert(getInputText(), getResultText(), null)
-                Log.d("insert vocabulary", insert.toString())
+                val insert = databaseManager.insertVocabulary(getInputText(), getResultText(), null)
+                Log.d("insertVocabulary vocabulary", insert.toString())
             }
         } else {
             favoriteDrawable = R.drawable.ic_star_border
-            val delete = databaseManager.delete(getInputText())
-            Log.d("delete vocabulary", delete.toString())
+            val delete = databaseManager.deleteVocabularyByName(getInputText())
+            Log.d("deleteVocabularyByName vocabulary", delete.toString())
         }
 
         setFavoriteDrawable(favoriteDrawable)

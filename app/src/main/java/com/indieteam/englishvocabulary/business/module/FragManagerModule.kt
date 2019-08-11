@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class FragManagerModule(private val supportFragmentManager: FragmentManager) {
+class FragManagerModule(private val supportFragmentManager: FragmentManager?) {
     @Provides
-    fun getSupportFragmentManager(): FragmentManager {
+    fun getSupportFragmentManager(): FragmentManager? {
         return supportFragmentManager
     }
 }

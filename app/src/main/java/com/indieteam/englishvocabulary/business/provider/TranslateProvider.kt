@@ -21,7 +21,7 @@ class TranslateProvider {
     @Inject
     lateinit var retrofitProvider: RetrofitProvider
     @Inject
-    lateinit var firebaseTranslatorProvider: FirebaseTranslatorProvider
+    lateinit var firebaseTranslateProvider: FirebaseTranslateProvider
 
     lateinit var call: Call<TranslateModel.Success>
     private fun isCallInitialized() = ::call.isInitialized
@@ -81,7 +81,7 @@ class TranslateProvider {
         }
 
         fun offlineTranslate(translateViewModel: TranslateViewModel, text: String) {
-            firebaseTranslatorProvider.translator.translate(text)
+            firebaseTranslateProvider.translator.translate(text)
                 .addOnSuccessListener {
                     translateViewModel.setResultText(it)
                     translateViewModel.setButtonText("Translate now")

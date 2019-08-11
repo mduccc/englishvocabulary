@@ -1,14 +1,17 @@
 package com.indieteam.englishvocabulary.viewmodel
 
+import android.content.Intent
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.App
+import com.indieteam.englishvocabulary.view.SettingsActivity
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter as FavouriteAdapter1
@@ -24,6 +27,8 @@ class FavouriteViewModel: BaseObservable {
     lateinit var databaseManager: DatabaseManager
 
     private val favouriteData = ArrayList<FavouriteModel.Item>()
+    @Bindable
+    val goSettings = true
 
     @Bindable
     fun getFavouriteData():ArrayList<FavouriteModel.Item> {
@@ -42,7 +47,7 @@ class FavouriteViewModel: BaseObservable {
     }
 
     fun removeFavouruteData(index: Int) {
-        val delete = databaseManager.delete(favouriteData[index].vocabulary)
+        val delete = databaseManager.deleteVocabularyByName(favouriteData[index].vocabulary)
         this.favouriteData.removeAt(index)
         //notifyPropertyChanged(BR.favouriteData)
     }
@@ -60,7 +65,16 @@ class FavouriteViewModel: BaseObservable {
                 Log.d("recyclerView.adapter", "Null")
             }
         }
+
+        @BindingAdapter("goSettings")
+        @JvmStatic
+        fun goSettings(view: View, boolean: Boolean) {
+            if (boolean) {
+                view.setOnClickListener {
+                    val intent = Intent(view.context, SettingsActivity::class.java)
+                    view.context.startActivity(intent)
+                }
+            }
+        }
     }
-
-
 }
