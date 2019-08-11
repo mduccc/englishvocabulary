@@ -28,7 +28,7 @@ class RemindProvider : BroadcastReceiver {
 
     override fun onReceive(p0: Context?, p1: Intent?) {
         rateSetting = databaseManager.getRateSetting()
-        rateSetting?.let {
+        rateSetting?.let { _ ->
             when (rateSetting) {
                 3 -> {
                     timesRemind.clear()
