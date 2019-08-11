@@ -20,8 +20,6 @@ class RemindService : Service {
 
     @Inject
     lateinit var remindProvider: RemindProvider
-    @Inject
-    lateinit var notificationManager: NotificationManager
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -30,8 +28,6 @@ class RemindService : Service {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("RemindService", "Stated")
         remindProvider.register(applicationContext)
-        notificationManager.TestNotification().show()
-
         return START_STICKY
     }
 

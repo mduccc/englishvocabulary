@@ -17,11 +17,13 @@ class RemindProvider: BroadcastReceiver {
         App.appComponent.inject(this)
     }
 
+    @Inject
+    lateinit var notificationManager: NotificationManager
+
     override fun onReceive(p0: Context?, p1: Intent?) {
         p1?.let {
             if (it.action == Intent.ACTION_TIME_TICK) {
-                val date = Date()
-                Log.d("Time Now", date.time.toString())
+                notificationManager.RemindNotification().show()
             }
         }
 

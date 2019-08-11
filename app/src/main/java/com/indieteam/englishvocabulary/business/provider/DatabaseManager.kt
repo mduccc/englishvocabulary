@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import com.indieteam.englishvocabulary.model.FavouriteModel
+import com.indieteam.englishvocabulary.model.RemindNotificationModel
 import java.lang.Exception
 import javax.inject.Singleton
 
@@ -47,7 +48,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             val value = ContentValues()
             value.put("vocabulary", vocabulary)
             value.put("vi", vi)
-            value.put("remindChannelDescription", description)
+            value.put("description", description)
 
             writableDB.insert("favorites", null, value)
 
@@ -90,7 +91,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
                 index++
-                cursor.moveToNext()
+                break
             }
             cursor.close()
         } catch (e: Exception) {
@@ -115,7 +116,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
                 index++
-                cursor.moveToNext()
+                break
             }
             cursor.close()
         } catch (e: Exception) {
@@ -210,5 +211,37 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         Log.d("insertRateSettingDef", result.toString())
 
         return result
+    }
+
+    fun randomVocabulary(): RemindNotificationModel? {
+        val results = ArrayList<RemindNotificationModel>()
+
+        try {
+            val readable = readableDatabase
+            val cursor = readable.rawQuery("SELECT * FROM favorites", null)
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+
+                results.add(
+                    RemindNotificationModel(
+                        cursor.getString(cursor.getColumnIndex("vocabulary")),
+                        cursor.getString(cursor.getColumnIndex("vi")),
+                        if (cursor.getString(cursor.getColumnIndex("description")).isNullOrBlank())
+                            ""
+                        else
+                            cursor.getString(cursor.getColumnIndex("description"))
+                    )
+                )
+                cursor.moveToNext()
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return if (results.size > 0)
+            results[(0 until results.size).random()]
+        else
+            null
     }
 }
