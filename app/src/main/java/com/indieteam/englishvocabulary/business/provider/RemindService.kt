@@ -31,8 +31,15 @@ class RemindService : Service {
         return START_STICKY
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        Log.d("RemindService", "On Task Removed")
+
+        val intent = Intent(applicationContext, this::class.java)
+        applicationContext.startService(intent)
+        super.onTaskRemoved(rootIntent)
+    }
+
     override fun onDestroy() {
-        super.onDestroy()
         Log.d("RemindService", "Stopping")
         Log.d("RemindService", "Stopped")
         try {
@@ -40,5 +47,6 @@ class RemindService : Service {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        super.onDestroy()
     }
 }
