@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import com.indieteam.englishvocabulary.view.App
-import java.lang.Exception
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class RemindService : Service {
 
@@ -20,6 +18,8 @@ class RemindService : Service {
 
     @Inject
     lateinit var remindProvider: RemindProvider
+    @Inject
+    lateinit var deviceBoot: DeviceBoot
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -34,19 +34,20 @@ class RemindService : Service {
     override fun onTaskRemoved(rootIntent: Intent?) {
         Log.d("RemindService", "On Task Removed")
 
-        val intent = Intent(applicationContext, this::class.java)
-        applicationContext.startService(intent)
+//        val intent = Intent(applicationContext, this::class.java)
+//        applicationContext.startService(intent)
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         Log.d("RemindService", "Stopping")
         Log.d("RemindService", "Stopped")
         try {
             remindProvider.destroy(applicationContext)
+            deviceBoot.destroy(applicationContext)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        super.onDestroy()
     }
 }

@@ -1,5 +1,6 @@
 package com.indieteam.englishvocabulary.business.module
 
+import com.indieteam.englishvocabulary.business.provider.DeviceBoot
 import com.indieteam.englishvocabulary.business.provider.RemindService
 import com.indieteam.englishvocabulary.business.provider.ServiceState
 import dagger.Module
@@ -15,5 +16,10 @@ class ServiceModule {
     @Provides
     fun getRemindService(): RemindService{
         return RemindService()
+    }
+
+    @Provides
+    fun getDeviceBoot(): DeviceBoot {
+        return DeviceBoot()
     }
 }
