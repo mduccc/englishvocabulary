@@ -1,13 +1,14 @@
 package com.indieteam.englishvocabulary.business.provider
 
-import android.app.Service
+import android.content.Context
 import android.content.Intent
-import android.os.IBinder
 import android.util.Log
+import androidx.core.app.JobIntentService
 import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
 
-class RemindService : Service {
+
+class RemindService : JobIntentService {
 
     @Inject
     constructor() {
@@ -18,24 +19,34 @@ class RemindService : Service {
 
     @Inject
     lateinit var remindProvider: RemindProvider
-    @Inject
-    lateinit var deviceBoot: DeviceBoot
 
-    override fun onBind(p0: Intent?): IBinder? {
-        return null
+    companion object{
+        const val job_id = 10000
+        fun enqueueWork(context: Context) {
+            enqueueWork(context, RemindService::class.java, job_id, Intent())
+        }
+    }
+
+
+    override fun onHandleWork(intent: Intent) {
+        try {
+            Log.d("RemindService", "Stated")
+            val _intent = Intent(applicationContext, RemindService::class.java)
+            applicationContext.startService(_intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        remindProvider.register(applicationContext)
+
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("RemindService", "Stated")
-        remindProvider.register(applicationContext)
         return START_STICKY
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         Log.d("RemindService", "On Task Removed")
-
-//        val intent = Intent(applicationContext, this::class.java)
-//        applicationContext.startService(intent)
+        enqueueWork(applicationContext)
         super.onTaskRemoved(rootIntent)
     }
 
@@ -45,7 +56,6 @@ class RemindService : Service {
         Log.d("RemindService", "Stopped")
         try {
             remindProvider.destroy(applicationContext)
-            deviceBoot.destroy(applicationContext)
         } catch (e: Exception) {
             e.printStackTrace()
         }

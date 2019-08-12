@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
             android:name=".view.App"
@@ -32,6 +33,7 @@
 
         <service
                 android:name=".business.provider.RemindService"
+                android:permission="android.permission.BIND_JOB_SERVICE"
                 android:icon="@drawable/icon">
         </service>
 

@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
         download_model_loading.visibility = GONE
         if (!serviceState.remindServiceIsRunning()) {
             Log.d("RemindService", "Stating")
-            startService(Intent(this, remindService.javaClass))
+            RemindService.enqueueWork(applicationContext)
         }
     }
 
