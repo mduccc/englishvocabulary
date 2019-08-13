@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
@@ -14,6 +15,7 @@ import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.SettingsActivity
+import java.lang.Exception
 import javax.inject.Inject
 
 class SettingsViewModel : BaseObservable {
@@ -139,11 +141,10 @@ class SettingsViewModel : BaseObservable {
         @JvmStatic
         fun googleLogin(view: View, loginOrLogout: Boolean) {
             view.setOnClickListener {
+                mGoogleSignInClient = GoogleSignIn.getClient(view.context.applicationContext, gso)
                 if (loginOrLogout) {
                     // Login
-                    mGoogleSignInClient = GoogleSignIn.getClient(view.context, gso)
-
-                    val account = GoogleSignIn.getLastSignedInAccount(view.context)
+                    val account = GoogleSignIn.getLastSignedInAccount(view.context.applicationContext)
 
                     account?.email?.let {
                         email = it
@@ -161,6 +162,18 @@ class SettingsViewModel : BaseObservable {
                     }
                 } else {
                     // Logout
+                    mGoogleSignInClient.signOut()
+                        .addOnCompleteListener {
+                            try {
+                                (view.context as SettingsActivity).settingsViewModel.apply {
+                                    setLoginOrLogout(true)
+                                    setLinkTo("Link to")
+                                }
+                                Toast.makeText(view.context, "Unlinked", Toast.LENGTH_SHORT).show()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
                 }
             }
         }

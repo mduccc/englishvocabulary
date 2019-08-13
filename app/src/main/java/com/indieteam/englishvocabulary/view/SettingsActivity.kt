@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,7 +20,7 @@ class SettingsActivity : AppCompatActivity() {
         const val googleSignInCode = 10
     }
 
-    private val settingsViewModel = SettingsViewModel()
+    val settingsViewModel = SettingsViewModel()
     private lateinit var email: String
     private fun emailIsInitialized() = ::email.isInitialized
 
@@ -29,6 +30,16 @@ class SettingsActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivitySettingsBinding>(this, R.layout.activity_settings)
         binding.settingsViewModel = settingsViewModel
         binding.executePendingBindings()
+
+        val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
+
+        account?.email?.let {
+            settingsViewModel.setLinkTo("$it\n(cLick to unlink)")
+            settingsViewModel.setLoginOrLogout(false)
+        } ?:run{
+            settingsViewModel.setLinkTo("Link to")
+            settingsViewModel.setLoginOrLogout(true)
+        }
 
     }
 
@@ -42,12 +53,14 @@ class SettingsActivity : AppCompatActivity() {
             account?.email?.let {
                 email = it
             }
-        }
-
-        if (emailIsInitialized()) {
-            Log.d("Email Logged", email)
-        } else {
-            Log.d("Email Logged", "null")
+            if (emailIsInitialized()) {
+                Log.d("Email Logged", email)
+                settingsViewModel.setLinkTo("$email\n(cLick to unlink)")
+                settingsViewModel.setLoginOrLogout(false)
+                Toast.makeText(this, "Linked", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.d("Email Logged", "null")
+            }
         }
     }
 }
