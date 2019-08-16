@@ -18,6 +18,7 @@ class RemindService : JobIntentService {
     }
 
     @Inject
+
     lateinit var remindProvider: RemindProvider
 
     companion object{
@@ -28,6 +29,8 @@ class RemindService : JobIntentService {
     }
 
 
+    // When running on Android O or later, the work will be dispatched as a job via JobScheduler.enqueue.
+    // When running on older versions of the platform, it will use Context.startService
     override fun onHandleWork(intent: Intent) {
         try {
             Log.d("RemindService", "Stated")
