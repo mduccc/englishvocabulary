@@ -6,5 +6,5 @@ class FirebaseDatabaseProvider {
 
    private val database = FirebaseDatabase.getInstance()
     val accountsRef = database.getReference("accounts")
-    val favouritesRef = database.getReference("favourite")
+    val favouritesRef = database.getReference("favourites")
 }

@@ -152,7 +152,7 @@ class TranslateViewModel : BaseObservable {
         if (favoriteState) {
             favoriteDrawable = R.drawable.ic_star_fit
             if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
-                val favouriteModel = FavouriteModel.Item(null, getInputText(), getResultText(), "")
+                val favouriteModel = FavouriteModel.Item(null, null, getInputText(), getResultText(), "")
                 val insert = databaseManager.insertVocabulary(favouriteModel)
                 Log.d("insertVocabulary", insert.toString())
             }

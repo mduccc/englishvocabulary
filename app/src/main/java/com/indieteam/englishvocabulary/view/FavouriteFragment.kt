@@ -18,6 +18,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.indieteam.englishvocabulary.R
+import com.indieteam.englishvocabulary.business.provider.DatabaseManager
+import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
 import com.indieteam.englishvocabulary.databinding.FragmentFavouriteBindingImpl
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter
@@ -45,6 +47,10 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
     lateinit var favouriteViewModel: FavouriteViewModel
     @Inject
     lateinit var favouriteAdapter: FavouriteAdapter
+    @Inject
+    lateinit var databaseManager: DatabaseManager
+    @Inject
+    lateinit var firebaseDatabaseManager: FirebaseDatabaseManager
 
     private var deleteButtonVisible = false
     private var posSwiped = -1
@@ -205,13 +211,18 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        databaseManager.getEmail()?.let {
+            firebaseDatabaseManager.getVocabularys(it)
+        }
+
         data.addAll(favouriteViewModel.databaseManager.getFavorites())
         favouriteViewModel.setFavouriteData(data)
 
         recycler_view.adapter = favouriteAdapter
         recycler_view.layoutManager = LinearLayoutManager(
             requireContext(),
-            LinearLayoutManager.VERTICAL,
+            RecyclerView.VERTICAL,
             false
         )
         ItemTouchHelper(swipeController).attachToRecyclerView(view.recycler_view)

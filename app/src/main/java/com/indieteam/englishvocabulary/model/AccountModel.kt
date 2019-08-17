@@ -1,3 +1,4 @@
 package com.indieteam.englishvocabulary.model
 
-data class AccountModel(val email: String, val accID: String, val type: String, val description: String)
+
+data class AccountModel(var email: String = "", var accID: String = "", var type: String = "", var description: String= "")

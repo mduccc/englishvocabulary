@@ -32,6 +32,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             while (!cursor.isAfterLast && cursor != null) {
                 val item = FavouriteModel.Item(
                     cursor.getString(cursor.getColumnIndex("id")).toInt(),
+                    null,
                     cursor.getString(cursor.getColumnIndex("vocabulary")),
                     cursor.getString(cursor.getColumnIndex("vi")),
                     ""
@@ -150,11 +151,8 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             val cursor = readableDB.rawQuery("SELECT * FROM notification_settings", null)
             cursor.moveToFirst()
 
-            while (!cursor.isAfterLast) {
-                result = cursor.getString(cursor.getColumnIndex("rate")).toInt()
-                Log.d("data", result.toString())
-                cursor.moveToNext()
-            }
+            result = cursor.getString(cursor.getColumnIndex("rate")).toInt()
+            Log.d("data", result.toString())
 
             cursor.close()
         } catch (e: Exception) {
@@ -267,23 +265,43 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             result = false
         }
 
+        Log.d("deleteAccount", result.toString())
+
         return result
     }
 
-    fun insertAccount(acccountModel: AccountModel): Boolean {
+    fun insertAccount(acccoutModel: AccountModel): Boolean {
         var result = true
         try {
             deleteAccount()
             val writableDB = writableDatabase
             val contentValue = ContentValues()
-            contentValue.put("email", acccountModel.email)
-            contentValue.put("type", acccountModel.type)
-            contentValue.put("description", acccountModel.description)
+            contentValue.put("email", acccoutModel.email)
+            contentValue.put("type", acccoutModel.type)
+            contentValue.put("description", acccoutModel.description)
             writableDB.insert("account", null, contentValue)
         } catch (e: Exception) {
             result = false
         }
 
+        Log.d("insertAccount", result.toString())
+
         return result
     }
-}
+
+    fun getEmail(): String? {
+        var email: String? = null
+        try {
+            val readableDB = readableDatabase
+            val cursor = readableDB.rawQuery("SELECT email FROM account", null)
+            cursor.moveToFirst()
+            email = cursor.getString(cursor.getColumnIndex("email"))
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        Log.d("Email logged", email.toString())
+        return email
+    }
+ }
