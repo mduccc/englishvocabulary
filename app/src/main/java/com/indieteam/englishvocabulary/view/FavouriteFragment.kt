@@ -17,7 +17,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.databinding.FragmentFavouriteBindingImpl
 import com.indieteam.englishvocabulary.model.FavouriteModel
@@ -175,8 +174,8 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
                         data.addAll(favouriteViewModel.databaseManager.getFavorites())
                         deleteButtonVisible = false
 
-                        Toast.makeText(requireContext(), "Deleted)", Toast.LENGTH_SHORT)
-                            .show()
+//                        Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT)
+//                            .show()
                     }
                 }
                 false

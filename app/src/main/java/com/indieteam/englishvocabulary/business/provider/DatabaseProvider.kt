@@ -11,7 +11,7 @@ import javax.inject.Singleton
 abstract class DatabaseProvider(context: Context) : SQLiteOpenHelper(context, "englishvocabulary", null, 1) {
     override fun onCreate(p0: SQLiteDatabase?) {
         try {
-            var sql = "CREATE TABLE IF NOT EXISTS favorites (id INTEGER PRIMARY KEY, vocabulary text, vi text, description text)"
+            var sql = "CREATE TABLE IF NOT EXISTS favorites (id INTEGER PRIMARY KEY, firebaseID text,vocabulary text, vi text, description text)"
             p0?.execSQL(sql)
             sql = "CREATE TABLE IF NOT EXISTS account (id INTEGER PRIMARY KEY, email text, type text, description text)"
             p0?.execSQL(sql)

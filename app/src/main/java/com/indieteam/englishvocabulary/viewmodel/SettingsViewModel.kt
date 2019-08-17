@@ -22,8 +22,8 @@ class SettingsViewModel : BaseObservable {
     constructor() {
         App.appComponent.inject(this)
 
-        val selected = dataBaseManager.getRateSetting()
-        rateId = dataBaseManager.getRateId()
+        val selected = databaseManager.getRateSetting()
+        rateId = databaseManager.getRateId()
 
         when (selected) {
             3 -> setTimes3(true)
@@ -42,7 +42,7 @@ class SettingsViewModel : BaseObservable {
     private var linkTo = ""
 
     @Inject
-    lateinit var dataBaseManager: DatabaseManager
+    lateinit var databaseManager: DatabaseManager
     var rateId: String? = ""
 
     @Bindable
@@ -54,7 +54,7 @@ class SettingsViewModel : BaseObservable {
         times3 = boolean
         if (boolean) {
             rateId?.let {
-                dataBaseManager.updateRateSetting(it, 3)
+                databaseManager.updateRateSetting(it, 3)
             }
         }
         notifyPropertyChanged(BR.times3)
@@ -69,7 +69,7 @@ class SettingsViewModel : BaseObservable {
         times4 = boolean
         if (boolean) {
             rateId?.let {
-                dataBaseManager.updateRateSetting(it, 4)
+                databaseManager.updateRateSetting(it, 4)
             }
         }
         notifyPropertyChanged(BR.times4)
@@ -84,7 +84,7 @@ class SettingsViewModel : BaseObservable {
         times5 = boolean
         if (boolean) {
             rateId?.let {
-                dataBaseManager.updateRateSetting(it, 5)
+                databaseManager.updateRateSetting(it, 5)
             }
         }
         notifyPropertyChanged(BR.times5)
@@ -168,6 +168,7 @@ class SettingsViewModel : BaseObservable {
                                 (view.context as SettingsActivity).settingsViewModel.apply {
                                     setLoginOrLogout(true)
                                     setLinkTo("Link to")
+                                    databaseManager.deleteAccount()
                                 }
                                 Toast.makeText(view.context, "Unlinked", Toast.LENGTH_SHORT).show()
                             } catch (e: Exception) {

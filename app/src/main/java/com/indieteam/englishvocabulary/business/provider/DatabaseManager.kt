@@ -3,13 +3,23 @@ package com.indieteam.englishvocabulary.business.provider
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
+import com.indieteam.englishvocabulary.model.AccountModel
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.model.RemindNotificationModel
+import com.indieteam.englishvocabulary.view.App
 import java.lang.Exception
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DatabaseManager(context: Context) : DatabaseProvider(context) {
+
+    init {
+        App.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var randomProvider: RandomProvider
 
     fun getFavorites(): ArrayList<FavouriteModel.Item> {
         val result = ArrayList<FavouriteModel.Item>()
@@ -23,7 +33,8 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
                 val item = FavouriteModel.Item(
                     cursor.getString(cursor.getColumnIndex("id")).toInt(),
                     cursor.getString(cursor.getColumnIndex("vocabulary")),
-                    cursor.getString(cursor.getColumnIndex("vi"))
+                    cursor.getString(cursor.getColumnIndex("vi")),
+                    ""
                 )
                 result.add(item)
                 Log.d("data", "${item.id} ${item.vocabulary} ${item.vi}")
@@ -37,18 +48,19 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         return result
     }
 
-    fun insertVocabulary(vocabulary: String, vi: String, description: String?): Boolean {
+    fun insertVocabulary(favouriteModel: FavouriteModel.Item): Boolean {
         var result = true
 
         try {
-            if (isVocabularyExists(vocabulary))
+            if (isVocabularyExists(favouriteModel.vocabulary))
                 return false
 
             val writableDB = writableDatabase
             val value = ContentValues()
-            value.put("vocabulary", vocabulary)
-            value.put("vi", vi)
-            value.put("description", description)
+            value.put("vocabulary", favouriteModel.vocabulary)
+            value.put("vi", favouriteModel.vi)
+            value.put("description", favouriteModel.description)
+            value.put("firebaseID", randomProvider.randomID())
 
             writableDB.insert("favorites", null, value)
 
@@ -243,5 +255,35 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             results[(0 until results.size).random()]
         else
             null
+    }
+
+    fun deleteAccount(): Boolean {
+        var result = true
+
+        try {
+            val writableDB = writableDatabase
+            writableDB.delete("account",null, null)
+        } catch (e: Exception) {
+            result = false
+        }
+
+        return result
+    }
+
+    fun insertAccount(acccountModel: AccountModel): Boolean {
+        var result = true
+        try {
+            deleteAccount()
+            val writableDB = writableDatabase
+            val contentValue = ContentValues()
+            contentValue.put("email", acccountModel.email)
+            contentValue.put("type", acccountModel.type)
+            contentValue.put("description", acccountModel.description)
+            writableDB.insert("account", null, contentValue)
+        } catch (e: Exception) {
+            result = false
+        }
+
+        return result
     }
 }

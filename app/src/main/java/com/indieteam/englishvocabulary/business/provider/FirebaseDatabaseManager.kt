@@ -1,5 +1,10 @@
 package com.indieteam.englishvocabulary.business.provider
 
+import android.util.Log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.indieteam.englishvocabulary.model.AccountModel
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
@@ -14,16 +19,30 @@ class FirebaseDatabaseManager {
     @Inject
     lateinit var firebaseDatabaseProvider: FirebaseDatabaseProvider
 
-    fun validAccount(account: String): Boolean {
-        val result = false
+    fun validAccount(account: String) {
+        
+    }
+
+    fun getAccount(): String {
+        var result = ""
+
+        firebaseDatabaseProvider.accountsRef
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val account = p0.getValue(AccountModel::class.java)
+                    Log.d("Account Info", account.toString())
+                }
+            })
 
         return result
     }
 
-    fun addAccount(account: String): Boolean {
-        val result = false
-
-        return result
+    fun insertAccount(accountModel: AccountModel) {
+        firebaseDatabaseProvider.accountsRef.push().setValue(accountModel)
     }
 
     fun getVocabularys(account: String): ArrayList<FavouriteModel.Item> {
@@ -32,7 +51,7 @@ class FirebaseDatabaseManager {
         return result
     }
 
-    fun addFavourite(account: String): Boolean {
+    fun insertFavourite(account: String): Boolean {
         val result = false
 
         return result

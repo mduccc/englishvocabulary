@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Component(modules = [ContextModule::class, SuggestModule::class, RetrofitModule::class,
     TranslateModule::class, DatabaseModule::class, ViewModelModule::class, FragmentModule::class,
-AdapterModule::class, RemindModule::class, NotificationModule::class, FirebaseModule::class])
+AdapterModule::class, RemindModule::class, NotificationModule::class, FirebaseModule::class, RandomModule::class])
 interface AppComponent {
     @Singleton
     fun inject(fragment: TranslateFragment)
@@ -22,6 +22,8 @@ interface AppComponent {
     fun inject(activity: TensesActivity)
     @Singleton
     fun inject(activity: MainActivity)
+    @Singleton
+    fun inject(settingsActivity: SettingsActivity)
 
     @Singleton
     fun inject(translateViewModel: TranslateViewModel)
@@ -42,6 +44,8 @@ interface AppComponent {
     fun inject(notificationChannelProvider: NotificationChannelProvider)
     @Singleton
     fun inject(firebaseDatabaseManager: FirebaseDatabaseManager)
+    @Singleton
+    fun inject(databaseManager: DatabaseManager)
     @Singleton
     fun inject(serviceState: ServiceState)
     @Singleton

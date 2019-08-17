@@ -10,11 +10,20 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.indieteam.englishvocabulary.R
+import com.indieteam.englishvocabulary.business.provider.DatabaseManager
+import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
+import com.indieteam.englishvocabulary.business.provider.RandomProvider
 import com.indieteam.englishvocabulary.databinding.ActivitySettingsBinding
+import com.indieteam.englishvocabulary.model.AccountModel
 import com.indieteam.englishvocabulary.viewmodel.SettingsViewModel
+import javax.inject.Inject
 
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity {
+
+    constructor() {
+        App.appComponent.inject(this)
+    }
 
     companion object{
         const val googleSignInCode = 10
@@ -23,6 +32,13 @@ class SettingsActivity : AppCompatActivity() {
     val settingsViewModel = SettingsViewModel()
     private lateinit var email: String
     private fun emailIsInitialized() = ::email.isInitialized
+
+    @Inject
+    lateinit var databaseManager: DatabaseManager
+    @Inject
+    lateinit var firebaseDatabaseManager: FirebaseDatabaseManager
+    @Inject
+    lateinit var randomProvider: RandomProvider
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +52,12 @@ class SettingsActivity : AppCompatActivity() {
         account?.email?.let {
             settingsViewModel.setLinkTo("$it\n(cLick to unlink)")
             settingsViewModel.setLoginOrLogout(false)
+            firebaseDatabaseManager.getAccount()
+
         } ?:run{
             settingsViewModel.setLinkTo("Link to")
             settingsViewModel.setLoginOrLogout(true)
+            databaseManager.deleteAccount()
         }
 
     }
@@ -57,6 +76,9 @@ class SettingsActivity : AppCompatActivity() {
                 Log.d("Email Logged", email)
                 settingsViewModel.setLinkTo("$email\n(cLick to unlink)")
                 settingsViewModel.setLoginOrLogout(false)
+                val accountModel = AccountModel(email, randomProvider.randomID(), "", "")
+                databaseManager.insertAccount(accountModel)
+                firebaseDatabaseManager.insertAccount(accountModel)
                 Toast.makeText(this, "Linked", Toast.LENGTH_SHORT).show()
             } else {
                 Log.d("Email Logged", "null")

@@ -13,6 +13,7 @@ import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.SuggestProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
+import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.model.TranslateModel
 import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
@@ -151,13 +152,14 @@ class TranslateViewModel : BaseObservable {
         if (favoriteState) {
             favoriteDrawable = R.drawable.ic_star_fit
             if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
-                val insert = databaseManager.insertVocabulary(getInputText(), getResultText(), null)
-                Log.d("insertVocabulary vocabulary", insert.toString())
+                val favouriteModel = FavouriteModel.Item(null, getInputText(), getResultText(), "")
+                val insert = databaseManager.insertVocabulary(favouriteModel)
+                Log.d("insertVocabulary", insert.toString())
             }
         } else {
             favoriteDrawable = R.drawable.ic_star_border
             val delete = databaseManager.deleteVocabularyByName(getInputText())
-            Log.d("deleteVocabularyByName vocabulary", delete.toString())
+            Log.d("deleteVocabularyByName", delete.toString())
         }
 
         setFavoriteDrawable(favoriteDrawable)
