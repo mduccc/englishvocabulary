@@ -21,6 +21,8 @@ class FirebaseDatabaseManager {
 
     @Inject
     lateinit var firebaseDatabaseProvider: FirebaseDatabaseProvider
+    @Inject
+    lateinit var databaseManager: DatabaseManager
 
 
     fun insertAccount(accountModel: AccountModel) {
@@ -36,16 +38,20 @@ class FirebaseDatabaseManager {
                         val data = child.getValue(AccountModel::class.java)
                         if (accountModel.email == data?.email) {
                             exists = true
+                            val newAccountModel = AccountModel(data.email, data.accID, data.type, data.description)
+                            databaseManager.insertAccount(newAccountModel)
+                            getVocabularys(data.email)
                             Log.d(
                                 "Account Info",
                                 "${data?.accID} ${data?.email} ${data?.type} ${data?.description}"
                             )
                         }
                     }
-
                     Log.d("Account Exists", exists.toString())
-                    if (!exists)
+                    if (!exists) {
                         firebaseDatabaseProvider.accountsRef.push().setValue(accountModel)
+                        databaseManager.insertAccount(accountModel)
+                    }
                 }
             })
     }
@@ -81,15 +87,27 @@ class FirebaseDatabaseManager {
                                 }
 
                                 override fun onDataChange(p0: DataSnapshot) {
+                                    val favourite = ArrayList<FavouriteModel.Item>()
                                     for (child in p0.children) {
                                         val data = child.getValue(FavouriteModel.Item::class.java)
+                                        if (data?.accID == accId) {
+                                            favourite.add(data)
+                                        }
+                                    }
+                                    if (favourite.isNotEmpty()) {
+                                        databaseManager.deleteAllVovabulary()
+                                        for (data in favourite) {
+                                            Log.d(
+                                                "Favourites Info",
+                                                "${data?.accID} ${data?.vocabulary} ${data?.vi} ${data?.description}"
+                                            )
+                                            databaseManager.insertVocabulary(data)
+                                        }
+                                    } else {
                                         Log.d(
                                             "Favourites Info",
-                                            "${data?.accID} ${data?.vocabulary} ${data?.vi} ${data?.description}"
+                                            "Empty"
                                         )
-                                        if (data?.accID == accId) {
-
-                                        }
                                     }
                                 }
                             })
@@ -100,15 +118,11 @@ class FirebaseDatabaseManager {
 
     }
 
-    fun insertFavourite(account: String): Boolean {
-        val result = false
-
-        return result
+    fun insertFavourite(favouriteModel: FavouriteModel.Item) {
+        val newFavouriteModel = FavouriteModel.Item(null, databaseManager.getAccID(), favouriteModel.vocabulary, favouriteModel.vi, "")
+        firebaseDatabaseProvider.favouritesRef.push().setValue(newFavouriteModel)
     }
 
-    fun deleteFavouriteByVocebulary(vocabulary: String, account: String): Boolean {
-        val result = false
-
-        return result
+    fun deleteFavouriteByVocebulary(vocabulary: String, account: String) {
     }
 }

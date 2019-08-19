@@ -11,6 +11,7 @@ import android.widget.ImageView
 import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
+import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
 import com.indieteam.englishvocabulary.business.provider.SuggestProvider
 import com.indieteam.englishvocabulary.business.provider.TranslateProvider
 import com.indieteam.englishvocabulary.model.FavouriteModel
@@ -35,6 +36,8 @@ class TranslateViewModel : BaseObservable {
     lateinit var translateProvider: TranslateProvider
     @Inject
     lateinit var databaseManager: DatabaseManager
+    @Inject
+    lateinit var firebaseDatabaseManager: FirebaseDatabaseManager
 
     @Bindable
     val useAnimate = true
@@ -153,17 +156,24 @@ class TranslateViewModel : BaseObservable {
             favoriteDrawable = R.drawable.ic_star_fit
             if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
                 val favouriteModel = FavouriteModel.Item(null, null, getInputText(), getResultText(), "")
-                val insert = databaseManager.insertVocabulary(favouriteModel)
-                Log.d("insertVocabulary", insert.toString())
+                val insertDB = databaseManager.insertVocabulary(favouriteModel)
+                val email = databaseManager.getEmail()
+                email?.let {
+                    firebaseDatabaseManager.insertFavourite(favouriteModel)
+                }
+                Log.d("insertVocabulary", insertDB.toString())
             }
         } else {
             favoriteDrawable = R.drawable.ic_star_border
             val delete = databaseManager.deleteVocabularyByName(getInputText())
+            val email = databaseManager.getEmail()
+            email?.let {
+                firebaseDatabaseManager.deleteFavouriteByVocebulary(getInputText(), email)
+            }
             Log.d("deleteVocabularyByName", delete.toString())
         }
 
         setFavoriteDrawable(favoriteDrawable)
-
     }
 
     fun clearInputClick() {

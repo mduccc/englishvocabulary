@@ -61,7 +61,6 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             value.put("vocabulary", favouriteModel.vocabulary)
             value.put("vi", favouriteModel.vi)
             value.put("description", favouriteModel.description)
-            value.put("firebaseID", randomProvider.randomID())
 
             writableDB.insert("favorites", null, value)
 
@@ -90,6 +89,19 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         }
 
         Log.d("deleteVocabularyByName", result.toString())
+
+        return result
+    }
+
+    fun deleteAllVovabulary(): Boolean {
+        var result = true
+
+        try {
+            val writableDB = writableDatabase
+            writableDB.delete("favorites", null, null)
+        } catch (e: Exception) {
+            result = false
+        }
 
         return result
     }
@@ -270,15 +282,16 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         return result
     }
 
-    fun insertAccount(acccoutModel: AccountModel): Boolean {
+    fun insertAccount(accountModel: AccountModel): Boolean {
         var result = true
         try {
             deleteAccount()
             val writableDB = writableDatabase
             val contentValue = ContentValues()
-            contentValue.put("email", acccoutModel.email)
-            contentValue.put("type", acccoutModel.type)
-            contentValue.put("description", acccoutModel.description)
+            contentValue.put("email", accountModel.email)
+            contentValue.put("accID", accountModel.accID)
+            contentValue.put("type", accountModel.type)
+            contentValue.put("description", accountModel.description)
             writableDB.insert("account", null, contentValue)
         } catch (e: Exception) {
             result = false
@@ -303,5 +316,21 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
 
         Log.d("Email logged", email.toString())
         return email
+    }
+
+    fun getAccID(): String? {
+        var accID: String? = null
+        try {
+            val readableDB = readableDatabase
+            val cursor = readableDB.rawQuery("SELECT accID FROM account", null)
+            cursor.moveToFirst()
+            accID = cursor.getString(cursor.getColumnIndex("accID"))
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        Log.d("accID logged", accID.toString())
+        return accID
     }
  }

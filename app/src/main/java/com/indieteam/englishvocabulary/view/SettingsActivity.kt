@@ -78,7 +78,6 @@ class SettingsActivity : AppCompatActivity {
                 settingsViewModel.setLoginOrLogout(false)
                 val accountModel = AccountModel(email, randomProvider.randomID(), "", "")
                 firebaseDatabaseManager.insertAccount(accountModel)
-                databaseManager.insertAccount(accountModel)
                 Toast.makeText(this, "Linked", Toast.LENGTH_SHORT).show()
             } else {
                 Log.d("Email Logged", "null")
