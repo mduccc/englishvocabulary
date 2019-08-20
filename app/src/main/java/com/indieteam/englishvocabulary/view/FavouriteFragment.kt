@@ -1,23 +1,23 @@
 package com.indieteam.englishvocabulary.view
 
 import android.annotation.SuppressLint
-import androidx.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ItemTouchHelper
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
@@ -27,7 +27,6 @@ import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
 import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_favourite.view.*
-import java.lang.Exception
 import javax.inject.Inject
 
 class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
@@ -55,7 +54,7 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         favouriteViewModel.setFavouriteData(data)
         try {
             swipe_refresh_layout.isRefreshing = false
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
@@ -64,7 +63,7 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         Log.d("onRefresh", "setRefresh")
         try {
             swipe_refresh_layout.isRefreshing = true
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }

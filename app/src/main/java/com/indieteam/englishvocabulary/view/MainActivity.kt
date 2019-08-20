@@ -17,6 +17,7 @@ import com.indieteam.englishvocabulary.view.update.OnDownloadModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity, OnDownloadModel {
@@ -38,11 +39,8 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     }
 
     constructor() {
-        if (!App.isAppComponentInitialized()) {
-            App.appModule.mainActivityModule(MainActivityModule(this))
-            App.appComponent = App.appModule.build()
-        }
-
+        App.appModule.mainActivityModule(MainActivityModule(this))
+        App.appComponent = App.appModule.build()
         App.appComponent.inject(this)
     }
 
@@ -56,8 +54,6 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     lateinit var translateModelProvider: TranslateModelProvider
     @Inject
     lateinit var serviceState: ServiceState
-    @Inject
-    lateinit var remindService: RemindService
     @Inject
     lateinit var databaseManager: DatabaseManager
 
@@ -107,5 +103,6 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
         if (favouriteFragment.favouriteAdapter.isTssIsInitialized())
             favouriteFragment.favouriteAdapter.tts.shutdown()
         super.onDestroy()
+        //exitProcess(0)
     }
 }

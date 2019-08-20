@@ -19,9 +19,7 @@ class RemindService : JobIntentService {
 
     @Inject
     constructor() {
-        if (!App.isServiceComponentInitialized())
-            App.serviceComponent = App.serviceModule.build()
-
+        App.serviceComponent = App.serviceModule.build()
         App.serviceComponent.inject(this)
     }
 
