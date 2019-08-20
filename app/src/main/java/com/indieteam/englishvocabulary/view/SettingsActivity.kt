@@ -56,7 +56,7 @@ class SettingsActivity : AppCompatActivity {
             Log.d("Email logged", it)
 
         } ?: run {
-            settingsViewModel.setLinkTo("Link to")
+            settingsViewModel.setLinkTo("Link with Google to sync data")
             settingsViewModel.setLoginOrLogout(true)
         }
 

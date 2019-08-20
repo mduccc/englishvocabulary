@@ -168,7 +168,7 @@ class SettingsViewModel : BaseObservable {
                             try {
                                 (view.context as SettingsActivity).settingsViewModel.apply {
                                     setLoginOrLogout(true)
-                                    setLinkTo("Link to")
+                                    setLinkTo("Link with Google to sync data")
                                     databaseManager.deleteAccount()
                                     databaseManager.deleteAllVocabulary()
                                     actionWithAccount = true
