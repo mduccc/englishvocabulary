@@ -27,6 +27,7 @@ import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter
 import com.indieteam.englishvocabulary.viewmodel.FavouriteViewModel
 import kotlinx.android.synthetic.main.fragment_favourite.*
 import kotlinx.android.synthetic.main.fragment_favourite.view.*
+import java.lang.Exception
 import javax.inject.Inject
 
 class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
@@ -57,7 +58,11 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
 
     fun setRefresh() {
         Log.d("onRefresh", "setRefresh")
-        swipe_refresh_layout.isRefreshing = true
+        try {
+            swipe_refresh_layout.isRefreshing = true
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     @Inject
@@ -248,6 +253,7 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         ItemTouchHelper(swipeController).attachToRecyclerView(view.recycler_view)
         search_favorite.onActionViewExpanded()
         search_favorite.isFocusable = false
+        search_favorite.clearFocus()
 
         search_favorite.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
