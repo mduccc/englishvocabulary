@@ -25,7 +25,7 @@ class SettingsActivity : AppCompatActivity {
         App.appComponent.inject(this)
     }
 
-    companion object{
+    companion object {
         const val googleSignInCode = 10
     }
 
@@ -55,7 +55,7 @@ class SettingsActivity : AppCompatActivity {
             settingsViewModel.setLoginOrLogout(false)
             Log.d("Email logged", it)
 
-        } ?:run{
+        } ?: run {
             settingsViewModel.setLinkTo("Link to")
             settingsViewModel.setLoginOrLogout(true)
         }
@@ -74,6 +74,7 @@ class SettingsActivity : AppCompatActivity {
             }
             if (emailIsInitialized()) {
                 Log.d("Email Logged", email)
+                settingsViewModel.actionWithAccount = true
                 settingsViewModel.setLinkTo("$email\n(cLick to unlink)")
                 settingsViewModel.setLoginOrLogout(false)
                 val accountModel = AccountModel(email, randomProvider.randomID(), "", "")
@@ -86,7 +87,8 @@ class SettingsActivity : AppCompatActivity {
     }
 
     override fun onDestroy() {
-        mainActivity.refresh()
+        if (settingsViewModel.actionWithAccount)
+            mainActivity.refresh()
         super.onDestroy()
     }
 }

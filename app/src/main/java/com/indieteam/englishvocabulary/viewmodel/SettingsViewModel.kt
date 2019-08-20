@@ -39,6 +39,8 @@ class SettingsViewModel : BaseObservable {
     private var times5 = false
     private var loginOrLogout = true
     private var linkTo = ""
+    var actionWithAccount = false
+
 
     @Inject
     lateinit var databaseManager: DatabaseManager
@@ -90,7 +92,7 @@ class SettingsViewModel : BaseObservable {
     }
 
     @Bindable
-    fun getLoginOrLogout(): Boolean{
+    fun getLoginOrLogout(): Boolean {
         return loginOrLogout
     }
 
@@ -169,6 +171,7 @@ class SettingsViewModel : BaseObservable {
                                     setLinkTo("Link to")
                                     databaseManager.deleteAccount()
                                     databaseManager.deleteAllVocabulary()
+                                    actionWithAccount = true
                                 }
                                 Toast.makeText(view.context, "Unlinked", Toast.LENGTH_SHORT).show()
                             } catch (e: Exception) {
