@@ -238,13 +238,6 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        databaseManager.getEmail()?.let {
-            Log.d("Email from DB", it)
-            firebaseDatabaseManager.getVocabularys()
-        } ?: run {
-            Log.d("Email from DB", "null")
-        }
-
         data.addAll(favouriteViewModel.databaseManager.getFavorites())
         favouriteViewModel.setFavouriteData(data)
 
