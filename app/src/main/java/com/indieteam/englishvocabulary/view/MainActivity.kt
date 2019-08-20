@@ -88,14 +88,18 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     }
 
     fun refresh() {
-        favouriteFragment.apply {
-            setRefresh()
-            onRefresh()
-        }
+        try {
+            favouriteFragment.apply {
+                setRefresh()
+                onRefresh()
+            }
 
-        translateFragment.translateViewModel.apply {
-            setInputText("")
-            setResultText("")
+            translateFragment.translateViewModel.apply {
+                setInputText("")
+                setResultText("")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
