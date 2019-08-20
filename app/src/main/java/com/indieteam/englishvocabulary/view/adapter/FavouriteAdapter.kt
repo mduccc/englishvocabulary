@@ -17,6 +17,8 @@ class FavouriteAdapter :
     RecyclerView.Adapter<FavouriteAdapter.MyViewHolder>() {
 
     private var data = ArrayList<FavouriteModel.Item>()
+    lateinit var tts: TextToSpeech
+    fun isTssIsInitialized() = ::tts.isInitialized
 
     fun setData(data: ArrayList<FavouriteModel.Item>) {
         this.data.clear()
@@ -57,7 +59,10 @@ class FavouriteAdapter :
     }
 
     inner class MyViewHolder(private val view: View) : RecyclerView.ViewHolder(view), TextToSpeech.OnInitListener {
-        private var tts: TextToSpeech = TextToSpeech(view.context, this)
+        init {
+            if (!isTssIsInitialized())
+                tts = TextToSpeech(view.context, this)
+        }
 
         override fun onInit(p0: Int) {
 //            if (p0 != TextToSpeech.ERROR) {
@@ -77,15 +82,15 @@ class FavouriteAdapter :
                 us_speaker.setOnClickListener {
                     Log.d("textToSpeech", "On")
                     val text = data[p1].vocabulary
-                    tts.language = Locale.US
-                    tts.speak(text, TextToSpeech.QUEUE_ADD, null)
+                    tts?.language = Locale.US
+                    tts?.speak(text, TextToSpeech.QUEUE_ADD, null)
                 }
 
                 uk_speaker.setOnClickListener {
                     Log.d("textToSpeech", "On")
                     val text = data[p1].vocabulary
-                    tts.language = Locale.UK
-                    tts.speak(text, TextToSpeech.QUEUE_ADD, null)
+                    tts?.language = Locale.UK
+                    tts?.speak(text, TextToSpeech.QUEUE_ADD, null)
                 }
             }
         }

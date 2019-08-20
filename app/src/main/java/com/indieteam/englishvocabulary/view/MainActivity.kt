@@ -102,4 +102,10 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
             e.printStackTrace()
         }
     }
+
+    override fun onDestroy() {
+        if (favouriteFragment.favouriteAdapter.isTssIsInitialized())
+            favouriteFragment.favouriteAdapter.tts.shutdown()
+        super.onDestroy()
+    }
 }
