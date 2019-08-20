@@ -53,7 +53,11 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         data.clear()
         data.addAll(favouriteViewModel.databaseManager.getFavorites())
         favouriteViewModel.setFavouriteData(data)
-        swipe_refresh_layout.isRefreshing = false
+        try {
+            swipe_refresh_layout.isRefreshing = false
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
     fun setRefresh() {
