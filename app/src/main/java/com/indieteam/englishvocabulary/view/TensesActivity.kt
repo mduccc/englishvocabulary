@@ -15,7 +15,7 @@ class TensesActivity : AppCompatActivity {
 
     constructor() {
         if (!App.isAppComponentInitialized())
-            App.appComponent = App.module.build()
+            App.appComponent = App.appModule.build()
         App.appComponent.inject(this)
     }
 

@@ -14,7 +14,7 @@ class NotificationManager {
 
     @Inject
     constructor() {
-        App.appComponent.inject(this)
+        App.serviceComponent.inject(this)
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

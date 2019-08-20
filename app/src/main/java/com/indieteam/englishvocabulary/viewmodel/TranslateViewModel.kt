@@ -153,24 +153,24 @@ class TranslateViewModel : BaseObservable {
         Log.d("favoriteState", favoriteState.toString())
 
         if (favoriteState) {
+            // click to save
             favoriteDrawable = R.drawable.ic_star_fit
             if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
                 val favouriteModel = FavouriteModel.Item(null, null, getInputText(), getResultText(), "")
-                val insertDB = databaseManager.insertVocabulary(favouriteModel)
+                databaseManager.insertVocabulary(favouriteModel)
                 val email = databaseManager.getEmail()
                 email?.let {
                     firebaseDatabaseManager.insertFavourite(favouriteModel)
                 }
-                Log.d("insertVocabulary", insertDB.toString())
             }
         } else {
+            // click to delete
             favoriteDrawable = R.drawable.ic_star_border
-            val delete = databaseManager.deleteVocabularyByName(getInputText())
-            val email = databaseManager.getEmail()
-            email?.let {
-                firebaseDatabaseManager.deleteFavouriteByVocebulary(getInputText(), email)
-            }
-            Log.d("deleteVocabularyByName", delete.toString())
+            databaseManager.deleteVocabularyByName(getInputText())
+            val accID = databaseManager.getAccID()
+            if (accID != null && accID.isNotEmpty() && accID.isNotBlank())
+                firebaseDatabaseManager.deleteFavouriteByVocebulary(getInputText())
+
         }
 
         setFavoriteDrawable(favoriteDrawable)

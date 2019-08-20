@@ -1,13 +1,13 @@
 package com.indieteam.englishvocabulary.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.indieteam.englishvocabulary.R
+import com.indieteam.englishvocabulary.business.module.MainActivityModule
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.RemindService
 import com.indieteam.englishvocabulary.business.provider.ServiceState
@@ -15,6 +15,7 @@ import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
 import com.indieteam.englishvocabulary.view.adapter.ViewPagerAdapter
 import com.indieteam.englishvocabulary.view.update.OnDownloadModel
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -37,8 +38,10 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     }
 
     constructor() {
-        if (!App.isAppComponentInitialized())
-            App.appComponent = App.module.build()
+        if (!App.isAppComponentInitialized()) {
+            App.appModule.mainActivityModule(MainActivityModule(this))
+            App.appComponent = App.appModule.build()
+        }
 
         App.appComponent.inject(this)
     }
@@ -70,9 +73,9 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
         translateModelProvider.download(this)
 
         listLayout.apply {
-            add(tensesFragment)
             add(translateFragment)
             add(favouriteFragment)
+            add(tensesFragment)
         }
 
         viewPagerAdapter.listLayout.addAll(listLayout)
@@ -84,4 +87,15 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
         }
     }
 
+    fun refresh() {
+        favouriteFragment.apply {
+            setRefresh()
+            onRefresh()
+        }
+
+        translateFragment.translateViewModel.apply {
+            setInputText("")
+            setResultText("")
+        }
+    }
 }

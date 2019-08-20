@@ -39,7 +39,8 @@ class SettingsActivity : AppCompatActivity {
     lateinit var firebaseDatabaseManager: FirebaseDatabaseManager
     @Inject
     lateinit var randomProvider: RandomProvider
-
+    @Inject
+    lateinit var mainActivity: MainActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,6 @@ class SettingsActivity : AppCompatActivity {
         } ?:run{
             settingsViewModel.setLinkTo("Link to")
             settingsViewModel.setLoginOrLogout(true)
-            databaseManager.deleteAccount()
         }
 
     }
@@ -83,5 +83,10 @@ class SettingsActivity : AppCompatActivity {
                 Log.d("Email Logged", "null")
             }
         }
+    }
+
+    override fun onDestroy() {
+        mainActivity.refresh()
+        super.onDestroy()
     }
 }

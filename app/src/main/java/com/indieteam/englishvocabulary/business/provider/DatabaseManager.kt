@@ -6,20 +6,10 @@ import android.util.Log
 import com.indieteam.englishvocabulary.model.AccountModel
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.model.RemindNotificationModel
-import com.indieteam.englishvocabulary.view.App
-import java.lang.Exception
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DatabaseManager(context: Context) : DatabaseProvider(context) {
-
-    init {
-        App.appComponent.inject(this)
-    }
-
-    @Inject
-    lateinit var randomProvider: RandomProvider
 
     fun getFavorites(): ArrayList<FavouriteModel.Item> {
         val result = ArrayList<FavouriteModel.Item>()
@@ -93,7 +83,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         return result
     }
 
-    fun deleteAllVovabulary(): Boolean {
+    fun deleteAllVocabulary(): Boolean {
         var result = true
 
         try {

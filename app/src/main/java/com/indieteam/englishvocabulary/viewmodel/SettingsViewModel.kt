@@ -15,7 +15,6 @@ import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.SettingsActivity
-import java.lang.Exception
 import javax.inject.Inject
 
 class SettingsViewModel : BaseObservable {
@@ -169,6 +168,7 @@ class SettingsViewModel : BaseObservable {
                                     setLoginOrLogout(true)
                                     setLinkTo("Link to")
                                     databaseManager.deleteAccount()
+                                    databaseManager.deleteAllVocabulary()
                                 }
                                 Toast.makeText(view.context, "Unlinked", Toast.LENGTH_SHORT).show()
                             } catch (e: Exception) {

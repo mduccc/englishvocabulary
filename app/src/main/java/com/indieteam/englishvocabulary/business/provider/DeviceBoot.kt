@@ -21,7 +21,7 @@ class DeviceBoot : BroadcastReceiver {
     override fun onReceive(p0: Context?, p1: Intent?) {
         if (p1?.action == Intent.ACTION_BOOT_COMPLETED) {
             if (!App.isAppComponentInitialized())
-                App.appComponent = App.module.build()
+                App.appComponent = App.appModule.build()
             App.appComponent.inject(this)
 
             if (!serviceState.remindServiceIsRunning()) {

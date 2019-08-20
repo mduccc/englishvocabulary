@@ -15,8 +15,9 @@ import kotlin.collections.ArrayList
 @Singleton
 class RemindProvider : BroadcastReceiver {
 
+    @Inject
     constructor() {
-        App.appComponent.inject(this)
+        App.serviceComponent.inject(this)
     }
 
     @Inject

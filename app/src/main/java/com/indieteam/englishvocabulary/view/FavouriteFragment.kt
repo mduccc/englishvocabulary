@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
@@ -37,10 +38,26 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         Log.d("onRefresh", "onRefresh")
+        databaseManager.getAccID()?.let {
+            Log.d("Account from DB", it)
+            firebaseDatabaseManager.getVocabularys()
+        } ?: run {
+            Log.d("Account from DB", "null")
+            onRefreshed()
+        }
+    }
+
+    fun onRefreshed() {
+        Log.d("onRefresh", "onRefreshed")
         data.clear()
         data.addAll(favouriteViewModel.databaseManager.getFavorites())
         favouriteViewModel.setFavouriteData(data)
         swipe_refresh_layout.isRefreshing = false
+    }
+
+    fun setRefresh() {
+        Log.d("onRefresh", "setRefresh")
+        swipe_refresh_layout.isRefreshing = true
     }
 
     @Inject
@@ -213,7 +230,10 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         super.onViewCreated(view, savedInstanceState)
 
         databaseManager.getEmail()?.let {
-            firebaseDatabaseManager.getVocabularys(it)
+            Log.d("Email from DB", it)
+            firebaseDatabaseManager.getVocabularys()
+        } ?: run {
+            Log.d("Email from DB", "null")
         }
 
         data.addAll(favouriteViewModel.databaseManager.getFavorites())

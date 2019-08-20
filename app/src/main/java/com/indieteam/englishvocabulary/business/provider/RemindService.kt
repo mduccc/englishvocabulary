@@ -10,17 +10,6 @@ import javax.inject.Inject
 
 class RemindService : JobIntentService {
 
-    @Inject
-    constructor() {
-        if (!App.isAppComponentInitialized())
-            App.appComponent = App.module.build()
-        App.appComponent.inject(this)
-    }
-
-    @Inject
-
-    lateinit var remindProvider: RemindProvider
-
     companion object{
         const val job_id = 10000
         fun enqueueWork(context: Context) {
@@ -28,6 +17,16 @@ class RemindService : JobIntentService {
         }
     }
 
+    @Inject
+    constructor() {
+        if (!App.isServiceComponentInitialized())
+            App.serviceComponent = App.serviceModule.build()
+
+        App.serviceComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var remindProvider: RemindProvider
 
     // When running on Android O or later, the work will be dispatched as a job via JobScheduler.enqueue.
     // When running on older versions of the platform, it will use Context.startService
@@ -40,7 +39,6 @@ class RemindService : JobIntentService {
             e.printStackTrace()
         }
         remindProvider.register(applicationContext)
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

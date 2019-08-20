@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import com.indieteam.englishvocabulary.BR
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
+import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.SettingsActivity
@@ -25,6 +26,8 @@ class FavouriteViewModel: BaseObservable {
 
     @Inject
     lateinit var databaseManager: DatabaseManager
+    @Inject
+    lateinit var firebaseDatabaseManager: FirebaseDatabaseManager
 
     private val favouriteData = ArrayList<FavouriteModel.Item>()
     @Bindable
@@ -48,7 +51,9 @@ class FavouriteViewModel: BaseObservable {
 
     fun removeFavouruteData(index: Int) {
         val delete = databaseManager.deleteVocabularyByName(favouriteData[index].vocabulary)
-        this.favouriteData.removeAt(index)
+        firebaseDatabaseManager.deleteFavouriteByVocebulary(this.favouriteData[index].vocabulary)
+        if (delete)
+            this.favouriteData.removeAt(index)
         //notifyPropertyChanged(BR.favouriteData)
     }
 
