@@ -30,6 +30,7 @@ class RemindProvider : BroadcastReceiver {
     override fun onReceive(p0: Context?, p1: Intent?) {
         rateSetting = databaseManager.getRateSetting()
         rateSetting?.let { _ ->
+            Log.d("rateSetting", rateSetting.toString())
             when (rateSetting) {
                 3 -> {
                     timesRemind.clear()
@@ -52,6 +53,90 @@ class RemindProvider : BroadcastReceiver {
                     timesRemind.add("20:0")
                     timesRemind.add("22:0")
                 }
+                6 -> {
+                    timesRemind.clear()
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("15:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("22:0")
+                }
+                7 -> {
+                    timesRemind.clear()
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("15:0")
+                    timesRemind.add("17:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("22:0")
+                }
+                8 -> {
+                    timesRemind.clear()
+                    timesRemind.add("6:0")
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("15:0")
+                    timesRemind.add("17:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("22:0")
+                }
+                9 -> {
+                    timesRemind.clear()
+                    timesRemind.add("6:0")
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("14:0")
+                    timesRemind.add("16:0")
+                    timesRemind.add("18:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("22:0")
+                }
+                10 -> {
+                    timesRemind.clear()
+                    timesRemind.add("6:0")
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("14:0")
+                    timesRemind.add("16:0")
+                    timesRemind.add("18:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("21:0")
+                    timesRemind.add("22:0")
+                }
+                11 -> {
+                    timesRemind.clear()
+                    timesRemind.add("6:0")
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("14:0")
+                    timesRemind.add("16:0")
+                    timesRemind.add("18:0")
+                    timesRemind.add("19:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("21:0")
+                    timesRemind.add("22:0")
+                }
+                12 -> {
+                    timesRemind.clear()
+                    timesRemind.add("6:0")
+                    timesRemind.add("7:0")
+                    timesRemind.add("8:0")
+                    timesRemind.add("10:0")
+                    timesRemind.add("12:0")
+                    timesRemind.add("14:0")
+                    timesRemind.add("16:0")
+                    timesRemind.add("18:0")
+                    timesRemind.add("19:0")
+                    timesRemind.add("20:0")
+                    timesRemind.add("21:0")
+                    timesRemind.add("22:0")
+                }
             }
 
             p1?.let { it ->
@@ -61,10 +146,15 @@ class RemindProvider : BroadcastReceiver {
                     val mm = calendar.get(Calendar.MINUTE)
                     val kkmm = "$kk:$mm"
                     Log.d("kk:mm", kkmm)
-                    val exits = timesRemind.filter { it == kkmm }
-                    Log.d("sizeOfTimesRemind", exits.size.toString())
-                    if (exits.isNotEmpty())
-                        notificationManager.RemindNotification().show()
+                    if (timesRemind.isNotEmpty()) {
+                        val exits = timesRemind.filter { it == kkmm }
+                        Log.d("sizeOfTimesRemind", exits.size.toString())
+                        if (exits.isNotEmpty())
+                            notificationManager.RemindNotification().show()
+                    } else {
+                        if (mm == 0 && kk > 4 && kk < 23)
+                            notificationManager.RemindNotification().show()
+                    }
                 }
             }
 

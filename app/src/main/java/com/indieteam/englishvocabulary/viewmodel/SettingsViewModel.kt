@@ -28,8 +28,15 @@ class SettingsViewModel : BaseObservable {
             3 -> setTimes3(true)
             4 -> setTimes4(true)
             5 -> setTimes5(true)
+            6 -> setTimes6(true)
+            7 -> setTimes7(true)
+            8 -> setTimes8(true)
+            9 -> setTimes9(true)
+            10 -> setTimes10(true)
+            11 -> setTimes11(true)
+            12 -> setTimes12(true)
             else -> {
-
+                setEveryhHour(true)
             }
         }
     }
@@ -37,6 +44,14 @@ class SettingsViewModel : BaseObservable {
     private var times3 = false
     private var times4 = false
     private var times5 = false
+    private var times6 = false
+    private var times7 = false
+    private var times8 = false
+    private var times9 = false
+    private var times10 = false
+    private var times11 = false
+    private var times12 = false
+    private var everyHour = false
     private var loginOrLogout = true
     private var linkTo = ""
     var actionWithAccount = false
@@ -92,6 +107,127 @@ class SettingsViewModel : BaseObservable {
     }
 
     @Bindable
+    fun getTimes6(): Boolean {
+        return times6
+    }
+
+    fun setTimes6(boolean: Boolean) {
+        times6 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 6)
+            }
+        }
+        notifyPropertyChanged(BR.times6)
+    }
+
+    @Bindable
+    fun getTimes7(): Boolean {
+        return times7
+    }
+
+    fun setTimes7(boolean: Boolean) {
+        times7 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 7)
+            }
+        }
+        notifyPropertyChanged(BR.times7)
+    }
+
+    @Bindable
+    fun getTimes8(): Boolean {
+        return times8
+    }
+
+    fun setTimes8(boolean: Boolean) {
+        times8 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 8)
+            }
+        }
+        notifyPropertyChanged(BR.times8)
+    }
+
+    @Bindable
+    fun getTimes9(): Boolean {
+        return times9
+    }
+
+    fun setTimes9(boolean: Boolean) {
+        times9 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 9)
+            }
+        }
+        notifyPropertyChanged(BR.times9)
+    }
+
+    @Bindable
+    fun getTimes10(): Boolean {
+        return times10
+    }
+
+    fun setTimes10(boolean: Boolean) {
+        times10 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 10)
+            }
+        }
+        notifyPropertyChanged(BR.times10)
+    }
+
+    @Bindable
+    fun getTimes11(): Boolean {
+        return times11
+    }
+
+    fun setTimes11(boolean: Boolean) {
+        times11 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 11)
+            }
+        }
+        notifyPropertyChanged(BR.times11)
+    }
+
+    @Bindable
+    fun getTimes12(): Boolean {
+        return times12
+    }
+
+    fun setTimes12(boolean: Boolean) {
+        times12 = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, 12)
+            }
+        }
+        notifyPropertyChanged(BR.times12)
+    }
+
+    @Bindable
+    fun getEveryHour(): Boolean {
+        return everyHour
+    }
+
+    fun setEveryhHour(boolean: Boolean) {
+        everyHour = boolean
+        if (boolean) {
+            rateId?.let {
+                databaseManager.updateRateSetting(it, -1)
+            }
+        }
+        notifyPropertyChanged(BR.everyHour)
+    }
+
+
+    @Bindable
     fun getLoginOrLogout(): Boolean {
         return loginOrLogout
     }
@@ -111,23 +247,76 @@ class SettingsViewModel : BaseObservable {
         notifyPropertyChanged(BR.linkTo)
     }
 
+    private fun selectAll(boolean: Boolean) {
+        setTimes3(boolean)
+        setTimes4(boolean)
+        setTimes5(boolean)
+        setTimes6(boolean)
+        setTimes7(boolean)
+        setTimes8(boolean)
+        setTimes9(boolean)
+        setTimes10(boolean)
+        setTimes11(boolean)
+        setTimes12(boolean)
+        setEveryhHour(false)
+    }
+
     fun times3Click() {
+        selectAll(false)
         setTimes3(true)
-        setTimes4(false)
-        setTimes5(false)
     }
 
     fun times4Click() {
-        setTimes3(false)
+        selectAll(false)
         setTimes4(true)
-        setTimes5(false)
     }
 
     fun times5Click() {
-        setTimes3(false)
-        setTimes4(false)
+        selectAll(false)
         setTimes5(true)
     }
+
+    fun times6Click() {
+        selectAll(false)
+        setTimes6(true)
+    }
+
+    fun times7Click() {
+        selectAll(false)
+        setTimes7(true)
+    }
+
+    fun times8Click() {
+        selectAll(false)
+        setTimes8(true)
+    }
+
+    fun times9Click() {
+        selectAll(false)
+        setTimes9(true)
+    }
+
+    fun times10Click() {
+        selectAll(false)
+        setTimes10(true)
+    }
+
+    fun times11Click() {
+        selectAll(false)
+        setTimes11(true)
+    }
+
+    fun times12Click() {
+        selectAll(false)
+        setTimes12(true)
+    }
+
+    fun everyHourClick() {
+        selectAll(false)
+        setEveryhHour(true)
+    }
+
+
 
     companion object {
         private var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
