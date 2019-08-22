@@ -45,7 +45,6 @@ class FirebaseDatabaseManager {
                             exists = true
                             val newAccountModel = AccountModel(data.email, data.accID, data.type, data.description)
                             databaseManager.insertAccount(newAccountModel)
-                            getVocabularys()
                             Log.d(
                                 "Account Info",
                                 "${data?.accID} ${data?.email} ${data?.type} ${data?.description}"

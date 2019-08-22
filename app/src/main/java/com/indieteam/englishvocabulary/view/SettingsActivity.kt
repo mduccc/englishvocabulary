@@ -87,8 +87,10 @@ class SettingsActivity : AppCompatActivity {
     }
 
     override fun onDestroy() {
-        if (settingsViewModel.actionWithAccount)
+        if (settingsViewModel.actionWithAccount) {
+            Log.d("onDestroy", "onDestroy SettingActivity")
             mainActivity.refresh()
+        }
         super.onDestroy()
     }
 }
