@@ -66,7 +66,7 @@ class FirebaseDatabaseManager {
         firebaseDatabaseProvider.accountsRef
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-                    //favouriteFragment.onRefreshed()
+                    mainActivity.favouriteFragment.onRefreshed()
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
@@ -90,7 +90,7 @@ class FirebaseDatabaseManager {
                             firebaseDatabaseProvider.favouritesRef
                                 .addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onCancelled(p0: DatabaseError) {
-
+                                        mainActivity.favouriteFragment.onRefreshed()
                                     }
 
                                     override fun onDataChange(p0: DataSnapshot) {
@@ -117,11 +117,13 @@ class FirebaseDatabaseManager {
                                             )
                                             databaseManager.deleteAllVocabulary()
                                         }
+                                        mainActivity.favouriteFragment.onRefreshed()
                                     }
                                 })
+                        } else {
+                            mainActivity.favouriteFragment.onRefreshed()
                         }
                     }
-                    mainActivity.favouriteFragment.onRefreshed()
                 }
             })
 
