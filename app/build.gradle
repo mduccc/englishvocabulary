@@ -23,6 +23,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{
+            multiDexEnabled true
+        }
     }
     dataBinding {
         enabled = true
@@ -78,4 +81,10 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.firebase:firebase-database:18.0.1'
+
+    /*WorkManager*/
+    def work_version = "2.2.0"
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
 }

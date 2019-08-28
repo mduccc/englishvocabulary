@@ -1,6 +1,5 @@
 package com.indieteam.englishvocabulary.business.provider
 
-import android.content.Context
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -9,8 +8,6 @@ import com.indieteam.englishvocabulary.model.AccountModel
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.MainActivity
-import com.indieteam.englishvocabulary.view.MainActivity_MembersInjector
-import java.lang.Exception
 import javax.inject.Inject
 
 class FirebaseDatabaseManager {

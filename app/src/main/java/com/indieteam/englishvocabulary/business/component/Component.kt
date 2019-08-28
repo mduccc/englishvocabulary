@@ -49,7 +49,5 @@ interface AppComponent {
     @Singleton
     fun inject(serviceState: ServiceState)
     @Singleton
-    fun inject(remindService: RemindService)
-    @Singleton
-    fun inject(deviceBoot: DeviceBoot)
+    fun inject(remindWorker: RemindWorker)
 }

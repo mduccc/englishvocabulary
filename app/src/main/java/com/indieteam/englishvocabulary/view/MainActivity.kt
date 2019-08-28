@@ -1,23 +1,23 @@
 package com.indieteam.englishvocabulary.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.module.MainActivityModule
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
-import com.indieteam.englishvocabulary.business.provider.RemindService
-import com.indieteam.englishvocabulary.business.provider.ServiceState
+import com.indieteam.englishvocabulary.business.provider.RemindWorker
 import com.indieteam.englishvocabulary.business.provider.TranslateModelProvider
 import com.indieteam.englishvocabulary.view.adapter.ViewPagerAdapter
 import com.indieteam.englishvocabulary.view.update.OnDownloadModel
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity, OnDownloadModel {
@@ -27,10 +27,12 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
 
     override fun onSuccess() {
         download_model_loading.visibility = GONE
-        if (!serviceState.remindServiceIsRunning()) {
-            Log.d("RemindService", "Stating")
-            RemindService.enqueueWork(applicationContext)
-        }
+        val periodicWorkRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.HOURS)
+            .addTag("reminder")
+            .build()
+        // If you need to check already running work manager just because you don't want duplicate works. You can simply use enqueueUniquePeriodicWork())
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniquePeriodicWork("reminder", ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest)
     }
 
     override fun onFailure() {
@@ -52,8 +54,6 @@ class MainActivity : AppCompatActivity, OnDownloadModel {
     lateinit var tensesFragment: TensesFragment
     @Inject
     lateinit var translateModelProvider: TranslateModelProvider
-    @Inject
-    lateinit var serviceState: ServiceState
     @Inject
     lateinit var databaseManager: DatabaseManager
 

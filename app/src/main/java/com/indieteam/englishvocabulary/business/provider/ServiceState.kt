@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class ServiceState {
 
@@ -21,14 +20,14 @@ class ServiceState {
         var isRunning = false
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
-            if (service.service.className == RemindService::class.java.name)
+            if (service.service.className == RemindWorker::class.java.name)
                 isRunning = true
         }
 
         if (isRunning)
-            Log.d("RemindService", "Running")
+            Log.d("RemindWorker", "Running")
         else
-            Log.d("RemindService", "Stopped")
+            Log.d("RemindWorker", "Stopped")
 
         return isRunning
     }
