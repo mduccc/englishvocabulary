@@ -9,15 +9,7 @@ import androidx.work.WorkerParameters
 import com.indieteam.englishvocabulary.view.App
 import javax.inject.Inject
 
-class RemindWorker : Worker {
-
-    private var context: Context
-    private var workerParameters: WorkerParameters
-
-    constructor(context: Context, workerParameters: WorkerParameters) : super(context, workerParameters){
-        this.context = context
-        this.workerParameters = workerParameters
-    }
+class RemindWorker(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
 
     init {
         App.appComponent.inject(this)
