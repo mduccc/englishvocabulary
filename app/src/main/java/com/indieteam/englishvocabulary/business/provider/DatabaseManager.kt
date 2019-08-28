@@ -25,7 +25,8 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
                     null,
                     cursor.getString(cursor.getColumnIndex("vocabulary")),
                     cursor.getString(cursor.getColumnIndex("vi")),
-                    ""
+                    "",
+                    cursor.getString(cursor.getColumnIndex("synced"))
                 )
                 result.add(item)
                 Log.d("data", "${item.id} ${item.vocabulary} ${item.vi}")
@@ -51,6 +52,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             value.put("vocabulary", favouriteModel.vocabulary)
             value.put("vi", favouriteModel.vi)
             value.put("description", favouriteModel.description)
+            value.put("synced", favouriteModel.synced)
 
             writableDB.insert("favorites", null, value)
 
@@ -61,6 +63,65 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
 
         Log.d("insertVocabulary", result.toString())
 
+        return result
+    }
+
+    fun getVocabularyIDByName(vocabulary: String): Int? {
+        var result: Int? = null
+
+        if (!isVocabularyExists(vocabulary))
+            return result
+
+        try {
+            val readableDB = readableDatabase
+            val cursor = readableDB.rawQuery("SELECT id, vocabulary FROM favorites WHERE vocabulary=?", arrayOf(vocabulary))
+            cursor.moveToFirst()
+            result = cursor.getString(cursor.getColumnIndex("id")).toInt()
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        Log.d("vocabularyIDByName", result.toString())
+        return result
+    }
+
+    fun updateVocabularySyncedByName(vocabulary: String, synced: Boolean): Boolean {
+        var result = true
+
+        try {
+            val writableDB = writableDatabase
+            val contentValue = ContentValues()
+            if(synced)
+                contentValue.put("synced", "synced")
+            else
+                contentValue.put("synced", "")
+            writableDB.update("favorites", contentValue,"vocabulary=?", arrayOf(vocabulary))
+        }catch (e: Exception) {
+            result = false
+            e.printStackTrace()
+        }
+
+        Log.d("updateVocabularySync", result.toString())
+
+        return result
+    }
+
+    fun getVocabularySyncedByName(vocabulary: String): String? {
+        var result: String? = null
+
+        if (!isVocabularyExists(vocabulary))
+            return result
+
+        try {
+            val readableDB = readableDatabase
+            val cursor = readableDB.rawQuery("SELECT vocabulary, synced FROM favorites WHERE vocabulary=?", arrayOf(vocabulary))
+            cursor.moveToFirst()
+            result = cursor.getString(cursor.getColumnIndex("synced"))
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        Log.d("vocabularySyncedByName", result.toString())
         return result
     }
 
@@ -150,11 +211,13 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         var result: Int? = null
         try {
             val readableDB = readableDatabase
-            val cursor = readableDB.rawQuery("SELECT * FROM notification_settings", null)
+            val cursor = readableDB.rawQuery("SELECT rate FROM notification_settings", null)
             cursor.moveToFirst()
 
-            result = cursor.getString(cursor.getColumnIndex("rate")).toInt()
-            Log.d("data", result.toString())
+            val ratedSaved = cursor.getString(cursor.getColumnIndex("rate"))
+            if (!ratedSaved.isNullOrEmpty())
+                result = ratedSaved.toInt()
+            Log.d("getRateSetting", result.toString())
 
             cursor.close()
         } catch (e: Exception) {
@@ -173,7 +236,6 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
 
             while (!cursor.isAfterLast) {
                 result = cursor.getString(cursor.getColumnIndex("id"))
-                Log.d("data", result.toString())
                 cursor.moveToNext()
             }
 
@@ -233,12 +295,11 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
             val cursor = readable.rawQuery("SELECT * FROM favorites", null)
             cursor.moveToFirst()
             while (!cursor.isAfterLast) {
-
                 results.add(
                     RemindNotificationModel(
                         cursor.getString(cursor.getColumnIndex("vocabulary")),
                         cursor.getString(cursor.getColumnIndex("vi")),
-                        if (cursor.getString(cursor.getColumnIndex("description")).isNullOrBlank())
+                        if (cursor.getString(cursor.getColumnIndex("description")).isNullOrEmpty())
                             ""
                         else
                             cursor.getString(cursor.getColumnIndex("description"))
@@ -262,7 +323,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
 
         try {
             val writableDB = writableDatabase
-            writableDB.delete("account",null, null)
+            writableDB.delete("account", null, null)
         } catch (e: Exception) {
             result = false
         }
@@ -323,4 +384,4 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         Log.d("accID logged", accID.toString())
         return accID
     }
- }
+}

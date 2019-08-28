@@ -49,6 +49,7 @@ class FirebaseDatabaseManager {
                                 "Account Info",
                                 "${data?.accID} ${data?.email} ${data?.type} ${data?.description}"
                             )
+                            break
                         }
                     }
                     Log.d("Account Exists", exists.toString())
@@ -81,6 +82,7 @@ class FirebaseDatabaseManager {
                                     "Account Info",
                                     "${data?.accID} ${data?.email} ${data?.type} ${data?.description}"
                                 )
+                                break
                             }
                         }
 
@@ -102,12 +104,14 @@ class FirebaseDatabaseManager {
                                         }
                                         if (favourite.isNotEmpty()) {
                                             databaseManager.deleteAllVocabulary()
-                                            for (data in favourite) {
+                                            for (element in favourite) {
                                                 Log.d(
                                                     "Favourites Info",
-                                                    "${data?.accID} ${data?.vocabulary} ${data?.vi} ${data?.description}"
+                                                    "${element?.accID} ${element?.vocabulary} ${element?.vi} ${element?.description}"
                                                 )
-                                                databaseManager.insertVocabulary(data)
+
+                                                element.synced = "synced"
+                                                databaseManager.insertVocabulary(element)
                                             }
                                         } else {
                                             Log.d(
@@ -148,6 +152,7 @@ class FirebaseDatabaseManager {
                                     "Account Info",
                                     "${data?.accID} ${data?.email} ${data?.type} ${data?.description}"
                                 )
+                                break
                             }
                         }
 
@@ -163,8 +168,10 @@ class FirebaseDatabaseManager {
                                         var vocabularyExists = false
                                         for (child in p0.children) {
                                             val data = child.getValue(FavouriteModel.Item::class.java)
-                                            if (data?.accID == accId && data?.vocabulary == favouriteModel.vocabulary)
+                                            if (data?.accID == accId && data?.vocabulary == favouriteModel.vocabulary) {
                                                 vocabularyExists = true
+                                                break
+                                            }
                                         }
 
                                         if (!vocabularyExists) {
@@ -207,6 +214,7 @@ class FirebaseDatabaseManager {
                                     "Account Info",
                                     "${data?.accID} ${data?.email} ${data?.type} ${data?.description}"
                                 )
+                                break
                             }
                         }
 
@@ -224,6 +232,7 @@ class FirebaseDatabaseManager {
                                             if (data?.accID == accId && data?.vocabulary == vocabulary) {
                                                 Log.d("Will delete", vocabulary)
                                                 child.ref.removeValue()
+                                                break
                                             }
                                         }
 
