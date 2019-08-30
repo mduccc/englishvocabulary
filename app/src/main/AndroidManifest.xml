@@ -4,6 +4,7 @@
           package="com.indieteam.englishvocabulary">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
@@ -18,7 +19,8 @@
             android:roundIcon="@drawable/ic_abc_education"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
+            tools:ignore="GoogleAppIndexingWarning"
+            tools:targetApi="n">
         <activity android:name=".view.SettingsActivity">
         </activity>
         <activity android:name=".view.TensesActivity">
@@ -30,6 +32,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <service
+                android:name=".business.provider.RemindService"
+                android:permission="android.permission.BIND_JOB_SERVICE"
+                android:icon="@drawable/icon">
+        </service>
+        <service android:name=".business.provider.RemindForegroundService"
+                android:icon="@drawable/foreground_icon">
+        </service>
     </application>
 
 </manifest>

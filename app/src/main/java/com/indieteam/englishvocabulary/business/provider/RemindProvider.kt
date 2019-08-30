@@ -1,7 +1,6 @@
 package com.indieteam.englishvocabulary.business.provider
 
 import android.util.Log
-import com.indieteam.englishvocabulary.view.App
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,7 +11,7 @@ class RemindProvider {
 
     @Inject
     constructor() {
-        App.appComponent.inject(this)
+        RemindService.serviceComponent.inject(this)
     }
 
     @Inject
@@ -23,6 +22,9 @@ class RemindProvider {
     private var timesRemind = ArrayList<String>()
 
     fun doRemind() {
+        Log.d("doRemind", "doRemind")
+        if (databaseManager.getFavorites().isEmpty())
+            return
         rateSetting = databaseManager.getRateSetting()
         rateSetting?.let { _ ->
             Log.d("rateSetting", rateSetting.toString())
@@ -136,7 +138,6 @@ class RemindProvider {
 
             val calendar = Calendar.getInstance()
             val kk = calendar.get(Calendar.HOUR_OF_DAY)
-            val mm = calendar.get(Calendar.MINUTE)
             Log.d("kk", "$kk")
             if (timesRemind.isNotEmpty()) {
                 val exits = timesRemind.filter { it == kk.toString() }
@@ -144,7 +145,7 @@ class RemindProvider {
                 if (exits.isNotEmpty())
                     notificationManager.RemindNotification().show()
             } else {
-                if (mm == 0 && kk > 4 && kk < 23)
+                if (kk in 5..22)
                     notificationManager.RemindNotification().show()
             }
         }

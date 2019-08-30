@@ -20,14 +20,30 @@ class ServiceState {
         var isRunning = false
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
-            if (service.service.className == RemindWorker::class.java.name)
+            if (service.service.className == RemindService::class.java.name)
                 isRunning = true
         }
 
         if (isRunning)
-            Log.d("RemindWorker", "Running")
+            Log.d("RemindService", "Running")
         else
-            Log.d("RemindWorker", "Stopped")
+            Log.d("RemindService", "Stopped")
+
+        return isRunning
+    }
+
+    fun foregroundServiceIsRunning(): Boolean {
+        var isRunning = false
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
+            if (service.service.className == RemindForegroundService::class.java.name)
+                isRunning = true
+        }
+
+        if (isRunning)
+            Log.d("ForegroundService", "Running")
+        else
+            Log.d("ForegroundService", "Stopped")
 
         return isRunning
     }

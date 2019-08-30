@@ -1,5 +1,6 @@
 package com.indieteam.englishvocabulary.business.provider
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
@@ -14,8 +15,9 @@ class NotificationManager {
 
     @Inject
     constructor() {
-        App.appComponent.inject(this)
-        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        RemindService.serviceComponent.inject(this)
+        notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannelProvider.createTestChannel()
@@ -25,6 +27,10 @@ class NotificationManager {
             notificationChannelProvider.createRemindChannel()
             if (notificationChannelProvider.remindChannelIsInitialized())
                 notificationManager.createNotificationChannel(notificationChannelProvider.remindChannel)
+
+            notificationChannelProvider.createForegroundChannel()
+            if (notificationChannelProvider.foregroundChannelInitialized())
+                notificationManager.createNotificationChannel(notificationChannelProvider.foregroundChannel)
         }
     }
 
@@ -39,16 +45,14 @@ class NotificationManager {
     inner class TestNotification {
         private lateinit var builder: NotificationCompat.Builder
         private fun testNotification() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                builder = NotificationCompat.Builder(context, NotificationChannelProvider.testChannelId)
+            builder = NotificationCompat.Builder(context, NotificationChannelProvider.testChannelId)
 
-                builder.apply {
-                    setSmallIcon(R.drawable.icon)
-                        .setContentTitle("Remind for you")
-                        .setContentText("Test notification")
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setAutoCancel(true) //true: auto remove notification when user tap
-                }
+            builder.apply {
+                setSmallIcon(R.drawable.icon)
+                    .setContentTitle("Remind for you")
+                    .setContentText("Test notification")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true) //true: auto remove notification when user tap
             }
         }
 
@@ -63,17 +67,17 @@ class NotificationManager {
         private lateinit var builder: NotificationCompat.Builder
         private fun remindNotification() {
             val randomVocabulary = databaseManager.randomVocabulary()
-            Log.d("Random Vocabulary", "${randomVocabulary?.vocabulary}: ${randomVocabulary?.vi}")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                builder = NotificationCompat.Builder(context, NotificationChannelProvider.remindChannelId)
+            builder =
+                NotificationCompat.Builder(context, NotificationChannelProvider.remindChannelId)
 
-                builder.apply {
-                    setSmallIcon(R.drawable.icon)
-                        .setContentTitle(randomVocabulary?.vocabulary?.capitalize() ?: "Try translate now")
-                        .setContentText(randomVocabulary?.vi?.capitalize() ?: "")
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setAutoCancel(false) //true: auto remove notification when user tap
-                }
+            builder.apply {
+                setSmallIcon(R.drawable.icon)
+                    .setContentTitle(
+                        randomVocabulary?.vocabulary?.capitalize() ?: "Try translate now"
+                    )
+                    .setContentText(randomVocabulary?.vi?.capitalize() ?: "")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(false) //true: auto remove notification when user tap
             }
         }
 
@@ -81,6 +85,27 @@ class NotificationManager {
             remindNotification()
             NotificationManagerCompat.from(context)
                 .notify(NotificationChannelProvider.remindNotificationId, builder.build())
+        }
+    }
+
+    inner class ForegroundNotification {
+        private lateinit var builder: NotificationCompat.Builder
+        private fun foregroundNotification() {
+            builder =
+                NotificationCompat.Builder(context, NotificationChannelProvider.foregroundChannelId)
+
+            builder.apply {
+                setSmallIcon(R.drawable.icon)
+                    .setContentTitle("Keep remind for you")
+                    .setContentText("")
+                    .setSmallIcon(R.drawable.foreground_icon)
+                    .setPriority(NotificationCompat.PRIORITY_MIN)
+            }
+        }
+
+        fun build(): Notification {
+            foregroundNotification()
+            return builder.build()
         }
     }
 }
