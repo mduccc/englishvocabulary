@@ -97,7 +97,7 @@ class NotificationManager {
             builder.apply {
                 setSmallIcon(R.drawable.icon)
                     .setContentTitle("Keep remind for you")
-                    .setContentText("")
+                    .setContentText("I'm working")
                     .setSmallIcon(R.drawable.foreground_icon)
                     .setPriority(NotificationCompat.PRIORITY_MIN)
             }
