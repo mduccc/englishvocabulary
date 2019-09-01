@@ -5,7 +5,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
 import android.view.View
-import com.indieteam.englishvocabulary.BR
+import androidx.databinding.library.baseAdapters.BR
 import com.indieteam.englishvocabulary.view.TensesActivity
 
 class Label {

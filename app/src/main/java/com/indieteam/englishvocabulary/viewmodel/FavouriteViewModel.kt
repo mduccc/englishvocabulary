@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import com.indieteam.englishvocabulary.BR
+import androidx.databinding.library.baseAdapters.BR
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
 import com.indieteam.englishvocabulary.model.FavouriteModel

@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import com.indieteam.englishvocabulary.BR
+import androidx.databinding.library.baseAdapters.BR
 import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
@@ -88,7 +88,7 @@ class TranslateViewModel : BaseObservable {
 
     fun setInputText(inputText: String) {
         translateProvider.callCancel()
-        val inputClear = inputText.replace(Regex("[^a-zA-Z]"), "")
+        val inputClear = inputText.replace(Regex("[^a-zA-Z ]"), "")
         if (inputClear != getInputText()) {
             setResultText("")
             setTranslated(false)

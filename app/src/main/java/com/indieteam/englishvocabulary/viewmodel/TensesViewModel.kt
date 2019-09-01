@@ -6,7 +6,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
 import android.view.ContextThemeWrapper
 import android.view.View
-import com.indieteam.englishvocabulary.BR
+import androidx.databinding.library.baseAdapters.BR
 
 
 class TensesViewModel : BaseObservable() {
