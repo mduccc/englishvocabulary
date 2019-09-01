@@ -25,14 +25,15 @@ class RemindForegroundService: Service() {
             initDI(applicationContext)
             serviceComponent.inject(this@RemindForegroundService)
         }
-    }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startForeground(NotificationChannelProvider.foregroundNotificationId, notificationManager.ForegroundNotification().build())
         val periodicWorkRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.HOURS)
             .build()
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(RemindService.uniqueWorkName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForeground(NotificationChannelProvider.foregroundNotificationId, notificationManager.ForegroundNotification().build())
         return START_STICKY
     }
 
