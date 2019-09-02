@@ -3,9 +3,7 @@ package com.indieteam.englishvocabulary.business.provider
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -30,10 +28,12 @@ class RemindForegroundService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(NotificationChannelProvider.foregroundNotificationId, notificationManager.ForegroundNotification().build())
 
-        val periodicWorkRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.HOURS)
+        val oneTimeWorkRequest = OneTimeWorkRequest.Builder(RemindWorker::class.java)
+            .addTag("english_vocabulary_remind")
+            .setInitialDelay(15, TimeUnit.MINUTES)
             .build()
 
-        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(RemindService.uniqueWorkName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
+        WorkManager.getInstance(applicationContext).enqueueUniqueWork(RemindService.uniqueWorkName, ExistingWorkPolicy.REPLACE, oneTimeWorkRequest)
         return START_STICKY
     }
 

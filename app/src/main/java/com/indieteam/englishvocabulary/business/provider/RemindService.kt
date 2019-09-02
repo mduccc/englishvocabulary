@@ -47,6 +47,7 @@ class RemindService : JobIntentService() {
     override fun onHandleWork(intent: Intent) {
         Log.d("onHandleWork", "onHandleWork")
         val periodicWorkRequest = PeriodicWorkRequest.Builder(RemindWorker::class.java, 1, TimeUnit.HOURS)
+            .addTag("english_vocabulary_remind")
             .build()
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(uniqueWorkName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
