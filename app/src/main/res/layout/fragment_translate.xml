@@ -66,28 +66,28 @@
 
                 <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="top">
 
                     <EditText
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="5"
-                            android:inputType="text"
+                            android:inputType="textMultiLine"
                             android:text="@={TranslateViewModel.inputText}"
                             bind:positionCursorAlwaysEnd="@{TranslateViewModel.inputText}"
                             android:textSize="30sp"
                             android:textCursorDrawable="@drawable/white_cursor"
                             android:background="@drawable/app_background"
-                            android:textColor="@color/colorWhite"
-                            android:focusedByDefault="false"/>
+                            android:textColor="@color/colorWhite" />
 
                     <ImageView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:src="@drawable/ic_clear"
-                            android:layout_gravity="end|center_vertical"
+                            android:layout_gravity="top"
                             android:onClick="@{()->TranslateViewModel.clearInputClick()}"
                             android:visibility="@{TranslateViewModel.buttonClearInputState ? View.VISIBLE : View.GONE}"/>
                 </LinearLayout>
@@ -111,20 +111,27 @@
                         android:gravity="center_vertical"
                         android:textColor="@color/colorWhite"/>
 
+
                 <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="top">
 
-                    <TextView
+                    <ScrollView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="5"
-                            android:text="@={TranslateViewModel.resultText}"
-                            android:textSize="30sp"
-                            android:background="@drawable/app_background"
-                            android:textColor="@color/colorWhite"/>
+                            android:layout_weight="5">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@={TranslateViewModel.resultText}"
+                                android:textSize="30sp"
+                                android:background="@drawable/app_background"
+                                android:textColor="@color/colorWhite"/>
+                    </ScrollView>
+
 
                     <ImageView
                             android:id="@+id/favorite"
@@ -136,6 +143,7 @@
                             android:visibility="@{TranslateViewModel.translated ? View.VISIBLE : View.GONE}"/>
 
                 </LinearLayout>
+
             </LinearLayout>
 
             <Button
