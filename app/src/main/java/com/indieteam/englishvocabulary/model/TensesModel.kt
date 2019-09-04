@@ -147,11 +147,11 @@ class TensesModel {
                             "- Khi thì quá khứ hoàn thành thường được dùng kết hợp với thì quá khứ đơn, ta thường dùng kèm với các giới từ và liên từ như: by (có nghĩa như before), before, after, when, till, untill, as soon as, no sooner…than\n" +
                             "\n" +
                             "Ex: Yesterday, I went out after I had finished my homework. (Hôm qua, tôi đi chơi sau khi tôi đã làm xong bài tập.)"
-                const val affirmation = "S + had + V3/ED + O"
+                const val affirmation = "S + had + V2/ED + O"
                 const val example1 = "They had gone to school before they went home."
-                const val negative = "S + had+ not + V3/ED + O"
+                const val negative = "S + had+ not + V2/ED + O"
                 const val example2 = "They hadn’t eaten breakfast before they went to school."
-                const val question = " Had +S + V3/ED + O?"
+                const val question = " Had +S + V2/ED + O?"
                 const val example3 = "Had they eaten breakfast before they went to school?"
             }
         }
