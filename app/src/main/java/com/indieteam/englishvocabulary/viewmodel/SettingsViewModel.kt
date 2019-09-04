@@ -52,7 +52,7 @@ class SettingsViewModel : BaseObservable {
     private var times11 = false
     private var times12 = false
     private var everyHour = false
-    private var loginOrLogout = true
+    private var loginedOrLogouted = true
     private var linkTo = ""
     var actionWithAccount = false
 
@@ -228,13 +228,13 @@ class SettingsViewModel : BaseObservable {
 
 
     @Bindable
-    fun getLoginOrLogout(): Boolean {
-        return loginOrLogout
+    fun getLoginedOrLogouted(): Boolean {
+        return loginedOrLogouted
     }
 
-    fun setLoginOrLogout(boolean: Boolean) {
-        loginOrLogout = boolean
-        notifyPropertyChanged(BR.loginOrLogout)
+    fun setLoginedOrLogouted(boolean: Boolean) {
+        loginedOrLogouted = boolean
+        notifyPropertyChanged(BR.loginedOrLogouted)
     }
 
     @Bindable
@@ -316,8 +316,6 @@ class SettingsViewModel : BaseObservable {
         setEveryhHour(true)
     }
 
-
-
     companion object {
         private var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -356,7 +354,7 @@ class SettingsViewModel : BaseObservable {
                         .addOnCompleteListener {
                             try {
                                 (view.context as SettingsActivity).settingsViewModel.apply {
-                                    setLoginOrLogout(true)
+                                    setLoginedOrLogouted(true)
                                     setLinkTo("Link with Google to sync data")
                                     databaseManager.deleteAccount()
                                     databaseManager.deleteAllVocabulary()

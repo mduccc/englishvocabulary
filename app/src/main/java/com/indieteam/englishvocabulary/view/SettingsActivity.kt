@@ -52,12 +52,12 @@ class SettingsActivity : AppCompatActivity {
 
         account?.email?.let {
             settingsViewModel.setLinkTo("$it\n(cLick to unlink)")
-            settingsViewModel.setLoginOrLogout(false)
+            settingsViewModel.setLoginedOrLogouted(false)
             Log.d("Email logged", it)
 
         } ?: run {
             settingsViewModel.setLinkTo("Link with Google to sync data")
-            settingsViewModel.setLoginOrLogout(true)
+            settingsViewModel.setLoginedOrLogouted(true)
         }
 
     }
@@ -76,7 +76,7 @@ class SettingsActivity : AppCompatActivity {
                 Log.d("Email Logged", email)
                 settingsViewModel.actionWithAccount = true
                 settingsViewModel.setLinkTo("$email\n(cLick to unlink)")
-                settingsViewModel.setLoginOrLogout(false)
+                settingsViewModel.setLoginedOrLogouted(false)
                 val accountModel = AccountModel(email, randomProvider.randomID(), "", "")
                 firebaseDatabaseManager.insertAccount(accountModel)
                 Toast.makeText(this, "Linked", Toast.LENGTH_SHORT).show()
