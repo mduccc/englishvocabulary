@@ -54,7 +54,6 @@ class FirebaseDatabaseManager {
                         firebaseDatabaseProvider.accountsRef.push().setValue(accountModel)
                         databaseManager.insertAccount(accountModel)
                     }
-                    sync()
                 }
             })
     }
