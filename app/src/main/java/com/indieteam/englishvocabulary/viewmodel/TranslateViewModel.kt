@@ -169,7 +169,7 @@ class TranslateViewModel : BaseObservable {
             databaseManager.deleteVocabularyByName(getInputText())
             val accID = databaseManager.getAccID()
             if (accID != null && accID.isNotEmpty() && accID.isNotBlank())
-                firebaseDatabaseManager.deleteFavouriteByVocebulary(getInputText())
+                firebaseDatabaseManager.deleteFavouriteByVocabulary(getInputText())
 
         }
 

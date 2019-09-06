@@ -53,13 +53,23 @@ class FirebaseDatabaseManager {
                     if (!exists) {
                         firebaseDatabaseProvider.accountsRef.push().setValue(accountModel)
                         databaseManager.insertAccount(accountModel)
-                        getVocabularys()
                     }
+                    sync()
                 }
             })
     }
 
-    fun getVocabularys() {
+    fun sync() {
+        // First, upload
+        val favouritesNotSynced = databaseManager.getFavoritesNotSynced()
+        for (item in favouritesNotSynced)
+            insertFavourite(item)
+
+        // Second, download
+        getFavourites()
+    }
+
+    private fun getFavourites() {
         firebaseDatabaseProvider.accountsRef
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -106,7 +116,6 @@ class FirebaseDatabaseManager {
                                                     "Favourites Info",
                                                     "${element?.accID} ${element?.vocabulary} ${element?.vi} ${element?.description}"
                                                 )
-
                                                 element.synced = "synced"
                                                 databaseManager.insertVocabulary(element)
                                             }
@@ -181,6 +190,15 @@ class FirebaseDatabaseManager {
                                             )
                                             firebaseDatabaseProvider.favouritesRef.push()
                                                 .setValue(newFavouriteModel)
+                                                .addOnSuccessListener {
+                                                    databaseManager.updateVocabularySyncStateName(newFavouriteModel.vocabulary, true)
+                                                    Log.d("Synced on cloud", newFavouriteModel.vocabulary)
+                                                }
+                                                .addOnFailureListener {
+                                                    Log.d("Cannot sync on cloud", newFavouriteModel.vocabulary)
+                                                }
+                                        } else {
+                                            Log.d("Really on cloud", favouriteModel.vocabulary)
                                         }
 
                                     }
@@ -191,7 +209,7 @@ class FirebaseDatabaseManager {
             })
     }
 
-    fun deleteFavouriteByVocebulary(vocabulary: String) {
+    fun deleteFavouriteByVocabulary(vocabulary: String) {
         firebaseDatabaseProvider.accountsRef
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -229,6 +247,12 @@ class FirebaseDatabaseManager {
                                             if (data?.accID == accId && data?.vocabulary == vocabulary) {
                                                 Log.d("Will delete", vocabulary)
                                                 child.ref.removeValue()
+                                                    .addOnSuccessListener {
+                                                        Log.d("Deleted on cloud", vocabulary)
+                                                    }
+                                                    .addOnFailureListener {
+                                                        Log.d("Cannot deleted on cloud", vocabulary)
+                                                    }
                                                 break
                                             }
                                         }

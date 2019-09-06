@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -40,7 +39,7 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         Log.d("onRefresh", "onRefresh")
         databaseManager.getAccID()?.let {
             Log.d("Account from DB", it)
-            firebaseDatabaseManager.getVocabularys()
+            firebaseDatabaseManager.sync()
         } ?: run {
             Log.d("Account from DB", "null")
             onRefreshed()

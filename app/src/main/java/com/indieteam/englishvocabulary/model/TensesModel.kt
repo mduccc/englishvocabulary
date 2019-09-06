@@ -108,7 +108,8 @@ class TensesModel {
                 const val look = "Trong câu có những từ: While, when, as, at 10:00 (giờ) last night, ...\n" +
                         "Ví dụ:\n" +
                         "\n" +
-                        "+ It happened at five the afternoon while she was watching the news on TV.\n" +
+                        "+ It happened at five the afternoon wh" +
+                        "ile she was watching the news on TV.\n" +
                         "+ He was doing his homework in his bedroom when the burglar came into the house."
                 const val manual =
                     "- Dùng để diễn tả một hành động đang xảy ra tại một thời điểm xác định trong quá khứ.\n" +

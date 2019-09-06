@@ -15,7 +15,6 @@ import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.SettingsActivity
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter as FavouriteAdapter1
 
 class FavouriteViewModel: BaseObservable {
 
@@ -51,7 +50,7 @@ class FavouriteViewModel: BaseObservable {
 
     fun removeFavouruteData(index: Int) {
         val delete = databaseManager.deleteVocabularyByName(favouriteData[index].vocabulary)
-        firebaseDatabaseManager.deleteFavouriteByVocebulary(this.favouriteData[index].vocabulary)
+        firebaseDatabaseManager.deleteFavouriteByVocabulary(this.favouriteData[index].vocabulary)
         if (delete)
             this.favouriteData.removeAt(index)
         //notifyPropertyChanged(BR.favouriteData)

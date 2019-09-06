@@ -16,14 +16,22 @@ import org.junit.runner.RunWith
 class DBUnitTest {
 
     @Test
-    fun getSyncedByVocabulary() {
+    fun getVocabularySynced() {
         val appContext = InstrumentationRegistry.getTargetContext()
         Assert.assertEquals("com.indieteam.englishvocabulary", appContext.packageName)
 
         val databaseManager = DatabaseManager(appContext)
-        val vocabulary = "combine"
-        //databaseManager.updateVocabularySyncedByName(vocabulary, true)
+        val vocabulary = "hassle"
+        //databaseManager.updateVocabularySyncStateName(vocabulary, true)
         databaseManager.getVocabularySyncedByName(vocabulary)
-        databaseManager.getVocabularyIDByName(vocabulary)
+    }
+
+    @Test
+    fun getFavoritesNotSynced() {
+        val appContext = InstrumentationRegistry.getTargetContext()
+        Assert.assertEquals("com.indieteam.englishvocabulary", appContext.packageName)
+
+        val databaseManager = DatabaseManager(appContext)
+        databaseManager.getFavoritesNotSynced()
     }
 }

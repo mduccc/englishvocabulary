@@ -29,7 +29,36 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
                     cursor.getString(cursor.getColumnIndex("synced"))
                 )
                 result.add(item)
-                Log.d("data", "${item.id} ${item.vocabulary} ${item.vi}")
+                Log.d("getFavorites", "${item.id} ${item.vocabulary} ${item.vi}")
+                cursor.moveToNext()
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return result
+    }
+
+    fun getFavoritesNotSynced(): ArrayList<FavouriteModel.Item> {
+        val result = ArrayList<FavouriteModel.Item>()
+
+        try {
+            val readable = readableDatabase
+            val cursor = readable.rawQuery("SELECT * FROM favorites WHERE synced NOT LIKE 'synced' ORDER BY id DESC", null)
+            cursor.moveToFirst()
+
+            while (!cursor.isAfterLast && cursor != null) {
+                val item = FavouriteModel.Item(
+                    cursor.getString(cursor.getColumnIndex("id")).toInt(),
+                    null,
+                    cursor.getString(cursor.getColumnIndex("vocabulary")),
+                    cursor.getString(cursor.getColumnIndex("vi")),
+                    "",
+                    cursor.getString(cursor.getColumnIndex("synced"))
+                )
+                result.add(item)
+                Log.d("getFavoritesNotSynced", "${item.id} ${item.vocabulary} ${item.vi}")
                 cursor.moveToNext()
             }
             cursor.close()
@@ -85,7 +114,7 @@ class DatabaseManager(context: Context) : DatabaseProvider(context) {
         return result
     }
 
-    fun updateVocabularySyncedByName(vocabulary: String, synced: Boolean): Boolean {
+    fun updateVocabularySyncStateName(vocabulary: String, synced: Boolean): Boolean {
         var result = true
 
         try {
