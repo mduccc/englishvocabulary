@@ -150,6 +150,7 @@ class TranslateViewModel : BaseObservable {
 
     fun favoriteOnClick() {
         favoriteState = !favoriteState
+        val accID = databaseManager.getAccID()
         Log.d("favoriteState", favoriteState.toString())
 
         if (favoriteState) {
@@ -158,16 +159,13 @@ class TranslateViewModel : BaseObservable {
             if (getResultText().isNotEmpty() && getResultText().isNotBlank()) {
                 val favouriteModel = FavouriteModel.Item(null, null, getInputText(), getResultText(), "")
                 databaseManager.insertVocabulary(favouriteModel)
-                val email = databaseManager.getEmail()
-                email?.let {
+                if (accID != null && accID.isNotEmpty() && accID.isNotBlank())
                     firebaseDatabaseManager.insertFavourite(favouriteModel)
-                }
             }
         } else {
             // click to delete
             favoriteDrawable = R.drawable.ic_star_border
             databaseManager.deleteVocabularyByName(getInputText())
-            val accID = databaseManager.getAccID()
             if (accID != null && accID.isNotEmpty() && accID.isNotBlank())
                 firebaseDatabaseManager.deleteFavouriteByVocabulary(getInputText())
 

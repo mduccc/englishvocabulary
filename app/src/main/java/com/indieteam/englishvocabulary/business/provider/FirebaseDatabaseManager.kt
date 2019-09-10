@@ -58,6 +58,7 @@ class FirebaseDatabaseManager {
                                 it.printStackTrace()
                             }
                     }
+                    databaseManager.deleteAllVocabulary()
                 }
             })
     }

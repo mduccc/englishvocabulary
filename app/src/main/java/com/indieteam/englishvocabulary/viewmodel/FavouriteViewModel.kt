@@ -42,17 +42,18 @@ class FavouriteViewModel : BaseObservable {
     }
 
     fun setFavouriteData(favouriteData: ArrayList<FavouriteModel.Item>) {
-        this.favouriteData.clear()
+        clearFavoriteData()
         this.favouriteData.addAll(favouriteData)
         notifyPropertyChanged(BR.favouriteData)
     }
 
     fun clearFavoriteData() {
-        this.favouriteData.clear()
+        favouriteData.clear()
         notifyPropertyChanged(BR.favouriteData)
     }
 
     fun removeFavoriteData(index: Int) {
+        databaseManager.deleteVocabularyByName(this.favouriteData[index].vocabulary)
         firebaseDatabaseManager.deleteFavouriteByVocabulary(this.favouriteData[index].vocabulary)
         this.favouriteData.removeAt(index)
 
@@ -66,10 +67,10 @@ class FavouriteViewModel : BaseObservable {
             if (recyclerView.adapter is com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter) {
                 Log.d("recyclerView.adapter", "Not null")
                 (recyclerView.adapter as com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter).apply {
-//                    clearData()
-//                    for (vocabulary in data)
-//                        updateData(null, vocabulary)
-                    setData(data)
+                    clearData()
+                    for (vocabulary in data)
+                        updateData(null, vocabulary)
+                    //setData(data)
                 }
             } else {
                 Log.d("recyclerView.adapter", "Null")

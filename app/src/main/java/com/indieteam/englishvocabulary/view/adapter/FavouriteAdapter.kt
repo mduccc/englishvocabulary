@@ -23,7 +23,7 @@ class FavouriteAdapter :
     fun isTssIsInitialized() = ::tts.isInitialized
 
     fun setData(data: ArrayList<FavouriteModel.Item>) {
-        this.data.clear()
+        clearData()
         this.data.addAll(data)
         notifyDataSetChanged()
         notifyItemRangeChanged(0, data.size - 1)
@@ -43,6 +43,7 @@ class FavouriteAdapter :
 
     fun clearData() {
         data.clear()
+        notifyDataSetChanged()
     }
 
     fun removeData(index: Int) {

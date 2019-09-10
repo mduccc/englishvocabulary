@@ -206,7 +206,6 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
                 ) {
                     if (deleteButtonVisible) {
                         favouriteViewModel.removeFavoriteData(posSwiped)
-                        databaseManager.deleteVocabularyByName(data[posSwiped].vocabulary)
                         favouriteAdapter.removeData(posSwiped)
 
                         data.clear()
