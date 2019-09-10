@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -53,6 +54,8 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         favouriteViewModel.setFavouriteData(data)
         try {
             swipe_refresh_layout.isRefreshing = false
+            if (databaseManager.getAccID() != null)
+                Toast.makeText(requireContext(), "Linked", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
         }

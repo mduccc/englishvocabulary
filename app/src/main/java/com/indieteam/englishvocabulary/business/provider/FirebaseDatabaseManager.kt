@@ -12,9 +12,6 @@ import javax.inject.Inject
 
 class FirebaseDatabaseManager {
 
-    companion object {
-    }
-
     @Inject
     constructor() {
         App.appComponent.inject(this)
@@ -26,6 +23,8 @@ class FirebaseDatabaseManager {
     lateinit var databaseManager: DatabaseManager
     @Inject
     lateinit var mainActivity: MainActivity
+    private var insertedCount = 0
+    private var insertError = false
 
     fun insertAccount(accountModel: AccountModel) {
         firebaseDatabaseProvider.accountsRef
@@ -52,7 +51,12 @@ class FirebaseDatabaseManager {
                     Log.d("Account Exists", exists.toString())
                     if (!exists) {
                         firebaseDatabaseProvider.accountsRef.push().setValue(accountModel)
-                        databaseManager.insertAccount(accountModel)
+                            .addOnSuccessListener {
+                                databaseManager.insertAccount(accountModel)
+                            }
+                            .addOnFailureListener {
+                                it.printStackTrace()
+                            }
                     }
                 }
             })
@@ -60,12 +64,19 @@ class FirebaseDatabaseManager {
 
     fun sync() {
         // First, upload
+        insertError = false
         val favouritesNotSynced = databaseManager.getFavoritesNotSynced()
         for (item in favouritesNotSynced)
             insertFavourite(item)
 
         // Second, download
-        getFavourites()
+        if (favouritesNotSynced.size > 0) {
+            while (insertedCount < favouritesNotSynced.size && !insertError) {
+                Thread.sleep(1000)
+            }
+            getFavourites()
+        } else
+            getFavourites()
     }
 
     private fun getFavourites() {
@@ -192,9 +203,11 @@ class FirebaseDatabaseManager {
                                                 .addOnSuccessListener {
                                                     databaseManager.updateVocabularySyncStateName(newFavouriteModel.vocabulary, true)
                                                     Log.d("Synced on cloud", newFavouriteModel.vocabulary)
+                                                    insertedCount++
                                                 }
                                                 .addOnFailureListener {
                                                     Log.d("Cannot sync on cloud", newFavouriteModel.vocabulary)
+                                                    insertError = true
                                                 }
                                         } else {
                                             Log.d("Really on cloud", favouriteModel.vocabulary)
