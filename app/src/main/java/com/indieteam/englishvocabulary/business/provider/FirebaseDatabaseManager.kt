@@ -215,7 +215,6 @@ class FirebaseDatabaseManager {
                                                 .addOnSuccessListener {
                                                     databaseManager.updateVocabularySyncStateName(newFavouriteModel.vocabulary, true)
                                                     Log.d("Synced on cloud", newFavouriteModel.vocabulary)
-                                                    insertedCount++
                                                 }
                                                 .addOnFailureListener {
                                                     Log.d("Cannot sync on cloud", newFavouriteModel.vocabulary)
@@ -224,7 +223,7 @@ class FirebaseDatabaseManager {
                                         } else {
                                             Log.d("Really on cloud", favouriteModel.vocabulary)
                                         }
-
+                                        insertedCount++
                                     }
                                 })
                         }
