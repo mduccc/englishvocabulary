@@ -55,7 +55,7 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         try {
             swipe_refresh_layout.isRefreshing = false
             if (databaseManager.getAccID() != null)
-                Toast.makeText(requireContext(), "Linked", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Synced", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
         }
