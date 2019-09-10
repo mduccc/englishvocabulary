@@ -66,9 +66,10 @@ class FavouriteViewModel : BaseObservable {
             if (recyclerView.adapter is com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter) {
                 Log.d("recyclerView.adapter", "Not null")
                 (recyclerView.adapter as com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter).apply {
-                    clearData()
-                    for (vocabulary in data)
-                        updateData(null, vocabulary)
+//                    clearData()
+//                    for (vocabulary in data)
+//                        updateData(null, vocabulary)
+                    setData(data)
                 }
             } else {
                 Log.d("recyclerView.adapter", "Null")
