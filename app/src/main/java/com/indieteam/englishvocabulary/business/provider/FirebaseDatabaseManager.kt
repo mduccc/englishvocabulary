@@ -63,20 +63,26 @@ class FirebaseDatabaseManager {
     }
 
     fun sync() {
-        // First, upload
-        insertError = false
-        val favouritesNotSynced = databaseManager.getFavoritesNotSynced()
-        for (item in favouritesNotSynced)
-            insertFavourite(item)
+        object : Thread() {
+            @Override
+            override fun run() {
+                // First, upload
+                insertError = false
+                val favouritesNotSynced = databaseManager.getFavoritesNotSynced()
+                for (item in favouritesNotSynced)
+                    insertFavourite(item)
 
-        // Second, download
-        if (favouritesNotSynced.size > 0) {
-            while (insertedCount < favouritesNotSynced.size && !insertError) {
-                Thread.sleep(1000)
+                // Second, download
+                if (favouritesNotSynced.size > 0) {
+                    while (insertedCount < favouritesNotSynced.size && !insertError)
+                        sleep(1000)
+                    getFavourites()
+                } else
+                    getFavourites()
+                join()
             }
-            getFavourites()
-        } else
-            getFavourites()
+
+        }.start()
     }
 
     private fun getFavourites() {
