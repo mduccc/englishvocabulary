@@ -1,25 +1,24 @@
 package com.indieteam.englishvocabulary.viewmodel
 
 import android.content.Intent
+import android.util.Log
+import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
-import android.util.Log
-import android.view.View
 import androidx.databinding.library.baseAdapters.BR
+import androidx.recyclerview.widget.RecyclerView
 import com.indieteam.englishvocabulary.business.provider.DatabaseManager
 import com.indieteam.englishvocabulary.business.provider.FirebaseDatabaseManager
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import com.indieteam.englishvocabulary.view.App
 import com.indieteam.englishvocabulary.view.SettingsActivity
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
-class FavouriteViewModel: BaseObservable {
+class FavouriteViewModel : BaseObservable {
 
     @Inject
-    constructor(){
+    constructor() {
         App.appComponent.inject(this)
     }
 
@@ -33,7 +32,7 @@ class FavouriteViewModel: BaseObservable {
     val goSettings = true
 
     @Bindable
-    fun getFavouriteData():ArrayList<FavouriteModel.Item> {
+    fun getFavouriteData(): ArrayList<FavouriteModel.Item> {
         return favouriteData
     }
 
@@ -48,22 +47,28 @@ class FavouriteViewModel: BaseObservable {
         notifyPropertyChanged(BR.favouriteData)
     }
 
-    fun removeFavouruteData(index: Int) {
-        val delete = databaseManager.deleteVocabularyByName(favouriteData[index].vocabulary)
+    fun clearFavoriteData() {
+        this.favouriteData.clear()
+        notifyPropertyChanged(BR.favouriteData)
+    }
+
+    fun removeFavoriteData(index: Int) {
         firebaseDatabaseManager.deleteFavouriteByVocabulary(this.favouriteData[index].vocabulary)
-        if (delete)
-            this.favouriteData.removeAt(index)
+        this.favouriteData.removeAt(index)
+
         //notifyPropertyChanged(BR.favouriteData)
     }
 
-    companion object{
+    companion object {
         @BindingAdapter("data")
         @JvmStatic
         fun setData(recyclerView: RecyclerView, data: ArrayList<FavouriteModel.Item>) {
             if (recyclerView.adapter is com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter) {
                 Log.d("recyclerView.adapter", "Not null")
                 (recyclerView.adapter as com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter).apply {
-                    setData(data)
+                    clearData()
+                    for (vocabulary in data)
+                        updateData(null, vocabulary)
                 }
             } else {
                 Log.d("recyclerView.adapter", "Null")

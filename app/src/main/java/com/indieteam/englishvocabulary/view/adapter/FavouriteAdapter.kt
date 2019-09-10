@@ -11,8 +11,10 @@ import com.indieteam.englishvocabulary.R
 import com.indieteam.englishvocabulary.model.FavouriteModel
 import kotlinx.android.synthetic.main.favourite_item.view.*
 import java.util.*
+import javax.inject.Singleton
 import kotlin.collections.ArrayList
 
+@Singleton
 class FavouriteAdapter :
     RecyclerView.Adapter<FavouriteAdapter.MyViewHolder>() {
 
@@ -27,10 +29,20 @@ class FavouriteAdapter :
         notifyItemRangeChanged(0, data.size - 1)
     }
 
-    fun updateData(data: ArrayList<FavouriteModel.Item>) {
+    fun updateData(data: ArrayList<FavouriteModel.Item>?, singleData: FavouriteModel.Item?) {
         val lastData = this.data
-        this.data.addAll(data)
+        data?.let {
+            this.data.addAll(data)
+        } ?: kotlin.run {
+            singleData?.let {
+                this.data.add(singleData)
+            }
+        }
         notifyDataSetChanged()
+    }
+
+    fun clearData() {
+        data.clear()
     }
 
     fun removeData(index: Int) {

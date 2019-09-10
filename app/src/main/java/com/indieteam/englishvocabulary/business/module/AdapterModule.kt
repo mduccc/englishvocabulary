@@ -5,6 +5,7 @@ import com.indieteam.englishvocabulary.view.adapter.FavouriteAdapter
 import com.indieteam.englishvocabulary.view.adapter.ViewPagerAdapter
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class AdapterModule {

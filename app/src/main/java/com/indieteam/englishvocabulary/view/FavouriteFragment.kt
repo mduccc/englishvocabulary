@@ -47,15 +47,21 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
+    fun message(message: String) {
+        requireActivity().runOnUiThread {
+            if (databaseManager.getAccID() != null)
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun onRefreshed() {
         Log.d("onRefresh", "onRefreshed")
         data.clear()
-        data.addAll(favouriteViewModel.databaseManager.getFavorites())
-        favouriteViewModel.setFavouriteData(data)
+        data.addAll(databaseManager.getFavorites())
+        favouriteViewModel.clearFavoriteData()
+        favouriteViewModel.updateFavouriteData(data)
         try {
             swipe_refresh_layout.isRefreshing = false
-            if (databaseManager.getAccID() != null)
-                Toast.makeText(requireContext(), "Synced", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -109,7 +115,6 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
             c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
             dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
         ) {
-
             posSwiped = viewHolder.adapterPosition
 
             Log.d("dX", dX.toString())
@@ -200,7 +205,8 @@ class FavouriteFragment : Fragment, SwipeRefreshLayout.OnRefreshListener {
                     && event.x > item.x + item.width && !moving
                 ) {
                     if (deleteButtonVisible) {
-                        favouriteViewModel.removeFavouruteData(posSwiped)
+                        favouriteViewModel.removeFavoriteData(posSwiped)
+                        databaseManager.deleteVocabularyByName(data[posSwiped].vocabulary)
                         favouriteAdapter.removeData(posSwiped)
 
                         data.clear()

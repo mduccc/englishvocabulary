@@ -118,31 +118,36 @@ class FirebaseDatabaseManager {
                                     }
 
                                     override fun onDataChange(p0: DataSnapshot) {
-                                        val favourite = ArrayList<FavouriteModel.Item>()
-                                        for (child in p0.children) {
-                                            val data = child.getValue(FavouriteModel.Item::class.java)
-                                            if (data?.accID == accId) {
-                                                favourite.add(data)
+                                        object : Thread() {
+                                            override fun run() {
+                                                val favourite = ArrayList<FavouriteModel.Item>()
+                                                for (child in p0.children) {
+                                                    val data = child.getValue(FavouriteModel.Item::class.java)
+                                                    if (data?.accID == accId)
+                                                        favourite.add(data)
+                                                }
+                                                if (favourite.isNotEmpty()) {
+                                                    databaseManager.deleteAllVocabulary()
+                                                    for (element in favourite) {
+                                                        Log.d(
+                                                            "Favourites Info",
+                                                            "${element?.accID} ${element?.vocabulary} ${element?.vi} ${element?.description}"
+                                                        )
+                                                        element.synced = "synced"
+                                                        databaseManager.insertVocabulary(element)
+                                                    }
+                                                } else {
+                                                    Log.d(
+                                                        "Favourites Info",
+                                                        "Empty"
+                                                    )
+                                                    databaseManager.deleteAllVocabulary()
+                                                }
+                                                mainActivity.favouriteFragment.onRefreshed()
+                                                mainActivity.favouriteFragment.message(("Synced"))
+                                                join()
                                             }
-                                        }
-                                        if (favourite.isNotEmpty()) {
-                                            databaseManager.deleteAllVocabulary()
-                                            for (element in favourite) {
-                                                Log.d(
-                                                    "Favourites Info",
-                                                    "${element?.accID} ${element?.vocabulary} ${element?.vi} ${element?.description}"
-                                                )
-                                                element.synced = "synced"
-                                                databaseManager.insertVocabulary(element)
-                                            }
-                                        } else {
-                                            Log.d(
-                                                "Favourites Info",
-                                                "Empty"
-                                            )
-                                            databaseManager.deleteAllVocabulary()
-                                        }
-                                        mainActivity.favouriteFragment.onRefreshed()
+                                        }.start()
                                     }
                                 })
                         } else {
@@ -272,7 +277,8 @@ class FirebaseDatabaseManager {
                                                         Log.d("Cannot deleted on cloud", vocabulary)
                                                     }
                                                 break
-                                            }
+                                            } else
+                                                Log.d("Cannot find $vocabulary on cloud", vocabulary)
                                         }
 
                                     }
